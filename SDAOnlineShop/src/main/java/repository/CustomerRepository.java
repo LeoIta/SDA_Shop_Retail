@@ -52,7 +52,7 @@ public class CustomerRepository {
                 int customerID = rs.getInt(1);
                 String firstName = rs.getString(2);
                 String lastName = rs.getString(3);
-                String mail = rs.getString(4);;
+                String mail = rs.getString(4);
                 String telephone = rs.getString(5);
                 int addressID = rs.getInt(6);
                 int accountID = rs.getInt(7);
@@ -72,7 +72,7 @@ public class CustomerRepository {
         String deleteById = "DELETE FROM Customer where customerID=?";
         {try {
             Connection connection = DBUtil.newConnection();
-            PreparedStatement pstmt = connection.prepareStatement(selectById);
+            PreparedStatement pstmt = connection.prepareStatement(deleteById);
             pstmt.setString(1,customer.getCustomerId());
             int deletedRecords = pstmt.executeUpdate(deleteById);
             pstmt.close();
@@ -104,7 +104,7 @@ public class CustomerRepository {
         String updateCustomer = "UPDATE Customer SET first_name=?, last_name=?,email=?,telephone=? where id=?";
         {try {
             Connection connection = DBUtil.newConnection();
-            PreparedStatement pstmt = connection.prepareStatement(newCustomer);
+            PreparedStatement pstmt = connection.prepareStatement(updateCustomer);
             
             pstmt.setString(1,customer.getFirstName());
             pstmt.setString(2,customer.getLastName());

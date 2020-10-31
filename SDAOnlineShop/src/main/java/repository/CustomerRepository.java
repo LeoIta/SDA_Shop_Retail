@@ -18,15 +18,15 @@ public class CustomerRepository {
             
             while(rs.next()) {
 
-                int customerID = rs.getInt(1);
-                String firstName = rs.getString(2);
-                String lastName = rs.getString(3);
-                String mail = rs.getString(4);;
+                int customerId = rs.getInt(1);
+                String first_name = rs.getString(2);
+                String last_name = rs.getString(3);
+                String mail = rs.getString(4);
                 String telephone = rs.getString(5);
-                int addressID = rs.getInt(6);
-                int accountID = rs.getInt(7);
+                int addressId = rs.getInt(6);
+                int accountId = rs.getInt(7);
                 
-                Customer customer = new Customer(firstName, lastName, mail, telephone, addressID);
+                Customer customer = new Customer(first_name, last_name, mail, telephone, addressId, accountId);
                 customerList.add(customer);
             }
             rs.close();
@@ -45,19 +45,19 @@ public class CustomerRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
-            pstmt.setString(1,customer.getCustomerId());
+            pstmt.setString(1,Id);
             ResultSet rs = pstmt.executeQuery(selectById);
             while(rs.next()) {
 
-                int customerID = rs.getInt(1);
-                String firstName = rs.getString(2);
-                String lastName = rs.getString(3);
+                int customerId = rs.getInt(1);
+                String first_name = rs.getString(2);
+                String last_name = rs.getString(3);
                 String mail = rs.getString(4);
                 String telephone = rs.getString(5);
-                int addressID = rs.getInt(6);
-                int accountID = rs.getInt(7);
+                int addressId = rs.getInt(6);
+                int accountId = rs.getInt(7);
 
-                Customer customer = new Customer(firstName, lastName, mail, telephone, addressID);
+                Customer customer = new Customer(first_name, last_name, mail, telephone, addressId, accountId);
                 customerList.add(customer);
             }
             rs.close();
@@ -73,7 +73,7 @@ public class CustomerRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
-            pstmt.setString(1,customer.getCustomerId());
+            pstmt.setString(1,Id);
             int deletedRecords = pstmt.executeUpdate(deleteById);
             pstmt.close();
             connection.close();
@@ -110,7 +110,7 @@ public class CustomerRepository {
             pstmt.setString(2,customer.getLastName());
             pstmt.setString(3,customer.getMail());
             pstmt.setString(4,customer.getTelephone());
-            pstmt.setString(5,customer.getAccountId());
+            pstmt.setString(5,Id);
 
             int newRecords = pstmt.executeUpdate(updateCustomer);
             pstmt.close();

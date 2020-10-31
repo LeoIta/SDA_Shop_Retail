@@ -17,12 +17,12 @@ public class AddressRepository {
             while(rs.next()) {
 
                 int addressId = rs.getInt(1);
-                String Country = rs.getString(2);
-                String City = rs.getString(3);
-                String PostalCode = rs.getString(4);
+                String country = rs.getString(2);
+                String city = rs.getString(3);
+                String postalCode = rs.getString(4);
                 
                 Address address = new Address(country, city, postalCode);
-                addressList.add(Address);
+                addressList.add(address);
             }
             rs.close();
             pstmt.close();
@@ -40,17 +40,17 @@ public class AddressRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
-            pstmt.setString(1,address.getAddressId());
+            pstmt.setString(1,Id);
             ResultSet rs = pstmt.executeQuery(selectById);
             while(rs.next()) {
 
                 int addressId = rs.getInt(1);
-                String Country = rs.getString(2);
-                String City = rs.getString(3);
-                String PostalCode = rs.getString(4);
+                String country = rs.getString(2);
+                String city = rs.getString(3);
+                String postalCode = rs.getString(4);
 
                 Address address = new Address(country, city, postalCode);
-                addressList.add(Address);
+                addressList.add(address);
             }
             rs.close();
             pstmt.close();
@@ -65,7 +65,7 @@ public class AddressRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
-            pstmt.setString(1,address.getAddressId());
+            pstmt.setString(1,Id);
             int deletedRecords = pstmt.executeUpdate(deleteById);
             pstmt.close();
             connection.close();
@@ -98,6 +98,7 @@ public class AddressRepository {
             pstmt.setString(1,address.getCountry());
             pstmt.setString(2,address.getCity());
             pstmt.setString(3,address.getPostalCode());
+            pstmt.setString(4,Id);
 
             int newRecords = pstmt.executeUpdate(updateAddress);
             pstmt.close();

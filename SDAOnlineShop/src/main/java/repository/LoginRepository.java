@@ -39,7 +39,7 @@ public class LoginRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
-            pstmt.setString(1,login.getAccountId());
+            pstmt.setString(1,Id);
             ResultSet rs = pstmt.executeQuery(selectById);
             while(rs.next()) {
 
@@ -63,7 +63,7 @@ public class LoginRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
-            pstmt.setString(1,login.getAccountId());
+            pstmt.setString(1,Id);
             int deletedRecords = pstmt.executeUpdate(deleteById);
             pstmt.close();
             connection.close();
@@ -94,6 +94,7 @@ public class LoginRepository {
             
             pstmt.setString(1,login.getUserName());
             pstmt.setString(2,login.getPassword());
+            pstmt.setString(3,Id);
 
             int newRecords = pstmt.executeUpdate(updateLogin);
             pstmt.close();

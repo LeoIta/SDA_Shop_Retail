@@ -6,6 +6,7 @@ public class Product {
     private String size;
     private String productCode;
     private int price;
+    private int orderID;
 
     public Product(String color, String size, String productCode, int price) {
         this.color = color;

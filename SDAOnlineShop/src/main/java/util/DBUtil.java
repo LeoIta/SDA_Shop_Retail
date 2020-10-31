@@ -10,7 +10,7 @@ public class DBUtil {
     public static final String DATABASE_USERNAME = "root";
     public static final String DATABASE_PASSWORD = "root";
 
-    public Connection newConnection() {
+    public static Connection newConnection() {
     Connection connection = null;
         try {
             connection = DriverManager.getConnection(

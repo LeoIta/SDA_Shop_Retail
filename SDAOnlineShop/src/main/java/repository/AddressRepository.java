@@ -1,4 +1,9 @@
 package repository;
+import model.Address;
+import util.DBUtil;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 public class AddressRepository {
 
     public static List<Address> findAll() {
@@ -26,11 +31,11 @@ public class AddressRepository {
             throwables.printStackTrace();
             }
         }
-        return AddressList;}
+        return addressList;}
     
     public static List<Address> findById(int Id) {
         List<Address> addressList = new ArrayList<Address>();
-        String selectById = "SELECT * FROM address where addressID=?";
+        String selectById = "SELECT * FROM address where addressId=?";
 
         {try {
             Connection connection = DBUtil.newConnection();
@@ -53,10 +58,10 @@ public class AddressRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }}
-        return AddressList;}
+        return addressList;}
 
     public static void deleteAddressById(int Id) {
-        String deleteById = "DELETE FROM address where addressID=?";
+        String deleteById = "DELETE FROM address where addressId=?";
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
@@ -85,7 +90,7 @@ public class AddressRepository {
         }}}
 
     public static void updateAddressById(int Id,Address address) {
-        String updateAddress = "UPDATE Address SET Country=?, City=?,PostalCode=? where id=?";
+        String updateAddress = "UPDATE Address SET Country=?, City=?,PostalCode=? where addressId=?";
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateAddress);

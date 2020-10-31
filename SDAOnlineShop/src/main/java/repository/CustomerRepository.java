@@ -9,7 +9,7 @@ import java.util.List;
 public class CustomerRepository {
 
     public static List<Customer> findAll() {
-        List<Customer> CustomerList = new ArrayList<Customer>();
+        List<Customer> customerList = new ArrayList<Customer>();
         String selectAll = "SELECT * FROM Customer";
         {try {
             Connection connection = DBUtil.newConnection();
@@ -27,7 +27,7 @@ public class CustomerRepository {
                 int accountID = rs.getInt(7);
                 
                 Customer customer = new Customer(firstName, lastName, mail, telephone, addressID);
-                CustomerList.add(customer);
+                customerList.add(customer);
             }
             rs.close();
             pstmt.close();
@@ -36,11 +36,11 @@ public class CustomerRepository {
             throwables.printStackTrace();
             }
         }
-        return CustomerList;}
+        return customerList;}
     
     public static List<Customer> findById(int Id) {
-        List<Customer> CustomerList = new ArrayList<Customer>();
-        String selectById = "SELECT * FROM Customer where customerID=?";
+        List<Customer> customerList = new ArrayList<Customer>();
+        String selectById = "SELECT * FROM Customer where customerId=?";
 
         {try {
             Connection connection = DBUtil.newConnection();
@@ -58,7 +58,7 @@ public class CustomerRepository {
                 int accountID = rs.getInt(7);
 
                 Customer customer = new Customer(firstName, lastName, mail, telephone, addressID);
-                CustomerList.add(customer);
+                customerList.add(customer);
             }
             rs.close();
             pstmt.close();
@@ -66,10 +66,10 @@ public class CustomerRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }}
-        return CustomerList;}
+        return customerList;}
 
     public static void deleteCustomerById(int Id) {
-        String deleteById = "DELETE FROM Customer where customerID=?";
+        String deleteById = "DELETE FROM Customer where customerId=?";
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
@@ -101,7 +101,7 @@ public class CustomerRepository {
         }}}
 
     public static void updateCustomerById(int Id,Customer customer) {
-        String updateCustomer = "UPDATE Customer SET first_name=?, last_name=?,email=?,telephone=? where id=?";
+        String updateCustomer = "UPDATE Customer SET first_name=?, last_name=?,email=?,telephone=? where customerId=?";
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateCustomer);

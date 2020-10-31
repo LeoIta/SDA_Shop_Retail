@@ -76,8 +76,8 @@ public class LoginRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(newLogin);
-            pstmt.setString(2,login.getUserName());
-            pstmt.setString(3,login.getPassword());
+            pstmt.setString(1,login.getUserName());
+            pstmt.setString(2,login.getPassword());
 
             int newRecords = pstmt.executeUpdate(newLogin);
             pstmt.close();
@@ -92,8 +92,8 @@ public class LoginRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateLogin);
             
-            pstmt.setString(2,login.getUserName());
-            pstmt.setString(3,login.getPassword());
+            pstmt.setString(1,login.getUserName());
+            pstmt.setString(2,login.getPassword());
 
             int newRecords = pstmt.executeUpdate(updateLogin);
             pstmt.close();

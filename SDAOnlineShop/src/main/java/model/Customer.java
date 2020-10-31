@@ -1,36 +1,36 @@
 package model;
 
 public class Customer {
-    private int customerID;
-    private String firstName;
-    private String lastName;
+    private int customerId;
+    private String first_name;
+    private String last_name;
     private String mail;
     private String telephone;
-    private int addressID;
-    private int accountID;
+    private int addressId;
+    private int accountId;
 
-    public Customer(String firstName, String lastName, String mail, String telephone, int addressID) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Customer(String first_name, String last_name, String mail, String telephone, int addressId) {
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.mail = mail;
         this.telephone = telephone;
-        this.addressID = addressID;
+        this.addressId = addressId;
     }
 
-    public String getFirstName() {
-        return this.firstName;
+    public String getFirst_name() {
+        return this.first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getLastName() {
-        return this.lastName;
+    public String getLast_name() {
+        return this.last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getMail() {
@@ -49,19 +49,19 @@ public class Customer {
         this.telephone = telephone;
     }
 
-    public int getAddressID() {
-        return this.addressID;
+    public int getAddressId() {
+        return this.addressId;
     }
 
-    public void setAddressID(int addressID) {
-        this.addressID = addressID;
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
 
-    public int getAccountID() {
-        return this.accountID;
+    public int getAccountId() {
+        return this.accountId;
     }
 
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 }

@@ -1,12 +1,12 @@
 package model;
 
 public class Product {
-    private int productID;
+    private int idProduct;
     private String color;
     private String size;
     private String productCode;
     private int price;
-    private int orderID;
+    private int orderId;
 
     public Product(String color, String size, String productCode, int price) {
         this.color = color;
@@ -15,12 +15,12 @@ public class Product {
         this.price = price;
     }
 
-    public int getProductID() {
-        return this.productID;
+    public int getIdProduct() {
+        return this.idProduct;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idproduct;
     }
 
     public String getColor() {

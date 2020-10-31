@@ -1,40 +1,40 @@
 package model;
 
 public class Order {
-    private int customerID;
-    private int DeliveryID;
-    private int productID;
+    private int customerId;
+    private int deliveryId;
+    private int productId;
 
     public Order() {
     }
 
-    public Order(int customerID, int deliveryID, int productID) {
-        this.customerID = customerID;
-        DeliveryID = deliveryID;
-        this.productID = productID;
+    public Order(int customerId, int deliveryId, int productId) {
+        this.customerId = customerId;
+        deliveryId = deliveryId;
+        this.productId = productId;
     }
 
-    public int getCustomerID() {
-        return customerID;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
-    public int getDeliveryID() {
-        return DeliveryID;
+    public int getDeliveryId() {
+        return deliveryId;
     }
 
-    public void setDeliveryID(int deliveryID) {
-        DeliveryID = deliveryID;
+    public void setDeliveryID(int deliveryId) {
+        deliveryId = deliveryId;
     }
 
-    public int getProductID() {
-        return productID;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProductID(int productID) {
-        this.productID = productID;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 }

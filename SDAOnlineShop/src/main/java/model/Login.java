@@ -1,12 +1,16 @@
 package model;
 
 public class Login {
-    private int accountID;
+    private int accountId;
     private String userName;
     private String password;
 
-    public int getAccountID() {
-        return this.accountID;
+    public int getAccountId() {
+        return this.accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountID = accountID;
     }
 
     public String getUserName() {
@@ -24,8 +28,5 @@ public class Login {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
-    }
+    
 }

@@ -1,7 +1,7 @@
 package model;
 
 public class Address {
-    private int addressID;
+    private int addressId;
     private String country;
     private String city;
     private String postalCode;
@@ -12,12 +12,12 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    public int getAddressID() {
-        return this.addressID;
+    public int getAddressId() {
+        return this.addressId;
     }
 
-    public void setAddressID(int addressID) {
-        this.addressID = addressID;
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
 
     public String getCountry() {

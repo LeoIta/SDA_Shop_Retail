@@ -1,7 +1,7 @@
 package model;
 
 public class Delivery {
-    private int DeliveryID;
+    private int deliveryId;
     private String name;
     private int deliveryCost;
 
@@ -10,12 +10,12 @@ public class Delivery {
         this.deliveryCost = deliveryCost;
     }
 
-    public int getDeliveryID() {
-        return this.DeliveryID;
+    public int getDeliveryId() {
+        return this.deliveryId;
     }
 
-    public void setDeliveryID(int deliveryID) {
-        DeliveryID = deliveryID;
+    public void setDeliveryId(int deliveryId) {
+        this.deliveryId = deliveryId;
     }
 
     public String getName() {

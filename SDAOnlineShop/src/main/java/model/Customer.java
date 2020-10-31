@@ -9,6 +9,14 @@ public class Customer {
     private int addressID;
     private int accountID;
 
+    public Customer(String firstName, String lastName, String mail, String telephone, int addressID) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mail = mail;
+        this.telephone = telephone;
+        this.addressID = addressID;
+    }
+
     public String getFirstName() {
         return this.firstName;
     }

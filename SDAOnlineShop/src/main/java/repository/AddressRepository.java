@@ -43,7 +43,7 @@ public class AddressRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
             pstmt.setInt(1,id);
-            ResultSet rs = pstmt.executeQuery(selectById);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
 
                 int addressId = rs.getInt(1);
@@ -56,7 +56,7 @@ public class AddressRepository {
                 addressList.add(address);
             }
             rs.close();
-            pstmt.close();
+//            pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -70,7 +70,7 @@ public class AddressRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
             pstmt.setInt(1,id);
-            int deletedRecords = pstmt.executeUpdate(deleteById);
+            int deletedRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -88,7 +88,7 @@ public class AddressRepository {
             pstmt.setString(3,address.getPostalCode());
             pstmt.setString(4,address.getStreet());
 
-            int newRecords = pstmt.executeUpdate(newAddress);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -108,7 +108,7 @@ public class AddressRepository {
             pstmt.setString(4,address.getStreet());
             pstmt.setInt(5,Id);
 
-            int newRecords = pstmt.executeUpdate(updateAddress);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {

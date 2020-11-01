@@ -1,6 +1,5 @@
 package repository;
 
-import model.Login;
 import model.Product;
 import util.DBUtil;
 
@@ -24,13 +23,13 @@ public class ProductRepository {
             while(rs.next()) {
 
                 int productId = rs.getInt(1);
-                String color = rs.getString(2);
-                String size = rs.getString(3);
-                String productCode = rs.getString(4);
-                int price = rs.getInt(5);
-                int orderId = rs.getInt(6);
+                String type = rs.getString(2);
+                String color = rs.getString(3);
+                String size = rs.getString(4);
+                String productCode = rs.getString(5);
+                int price = rs.getInt(6);
 
-                Product product = new Product(productId, color, size,productCode,price);
+                Product product = new Product(productId, type, color, size,productCode,price);
                 productList.add(product);
             }
             rs.close();
@@ -56,13 +55,13 @@ public class ProductRepository {
             while(rs.next()) {
 
                 int productId = rs.getInt(1);
-                String color = rs.getString(2);
-                String size = rs.getString(3);
-                String productCode = rs.getString(4);
-                int price = rs.getInt(5);
-                int orderId = rs.getInt(6);
+                String type = rs.getString(2);
+                String color = rs.getString(3);
+                String size = rs.getString(4);
+                String productCode = rs.getString(5);
+                int price = rs.getInt(6);
 
-                Product product = new Product(productId, color, size, productCode, price);
+                Product product = new Product(productId, type, color, size, productCode, price);
                 productList.add(product);
             }
             rs.close();
@@ -89,14 +88,15 @@ public class ProductRepository {
     }
 
     public static void saveNewProduct(Product product) {
-        String newProduct = "INSERT INTO Login VALUES(null,?,?,?,?)";
+        String newProduct = "INSERT INTO Login VALUES(null,?,?,?,?,?)";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(newProduct);
-            pstmt.setString(1,product.getColor());
-            pstmt.setString(2,product.getSize());
-            pstmt.setString(2,product.getProductCode());
-            pstmt.setInt(2,product.getPrice());
+            pstmt.setString(1,product.getType());
+            pstmt.setString(2,product.getColor());
+            pstmt.setString(3,product.getSize());
+            pstmt.setString(4,product.getProductCode());
+            pstmt.setInt(5,product.getPrice());
 
             int newRecords = pstmt.executeUpdate(newProduct);
             pstmt.close();

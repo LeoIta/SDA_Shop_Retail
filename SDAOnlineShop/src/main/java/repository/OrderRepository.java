@@ -1,6 +1,5 @@
 package repository;
 
-import model.Login;
 import model.Order;
 import util.DBUtil;
 
@@ -52,7 +51,7 @@ public class OrderRepository {
             while(rs.next()) {
                 int customerId  = rs.getInt(2);
                 int deliveryId  = rs.getInt(3);
-                int productId  = rs.getInt(3);
+                int productId  = rs.getInt(4);
 
                 Order order = new Order(id, customerId, deliveryId,productId);
                 orderList.add(order);
@@ -86,9 +85,9 @@ public class OrderRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(newOrder);
             pstmt.setInt(1,order.getOrderId());
-            pstmt.setInt(1,order.getCustomerId());
-            pstmt.setInt(1,order.getDeliveryId());
-            pstmt.setInt(1,order.getProductId());
+            pstmt.setInt(2,order.getCustomerId());
+            pstmt.setInt(3,order.getDeliveryId());
+            pstmt.setInt(4,order.getProductId());
 
             int newRecords = pstmt.executeUpdate(newOrder);
             pstmt.close();
@@ -97,16 +96,31 @@ public class OrderRepository {
             throwables.printStackTrace();
         }
     }
-// in case we save quantity in order table
-    public static void updateOderQtyById(int qty,Order order) { //not needed
-        String updateQtyById = "UPDATE order SET quantity=?, where orderId=? and productId=?";
+
+    public static void updateProductById(Order order) {
+        String updateQtyById = "UPDATE order SET productId=?, where orderId=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateQtyById);
 
-            pstmt.setInt(1,qty);
             pstmt.setInt(1,order.getOrderId());
-            pstmt.setInt(1,order.getProductId());
+            pstmt.setInt(2,order.getProductId());
+
+            int newRecords = pstmt.executeUpdate(updateQtyById);
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    public static void updateDeliveryById(int deliveryId, Order order) { //We add this when the customer choose delivery
+        String updateQtyById = "UPDATE order SET deliveryId=?, where orderId=?";
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(updateQtyById);
+
+            pstmt.setInt(1,deliveryId);
+            pstmt.setInt(2,order.getOrderId());
 
             int newRecords = pstmt.executeUpdate(updateQtyById);
             pstmt.close();

@@ -1,4 +1,11 @@
 use sda_online_shop;
+insert into delivery 
+values
+(null,'DHL',20),
+(null,'FEDEX',30),
+(null,'UPS',25);
+
+
 insert into storage 
 values
 ('0JNS00XS00RD',10),

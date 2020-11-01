@@ -1,6 +1,5 @@
 package repository;
 
-import model.Login;
 import model.Storage;
 import util.DBUtil;
 

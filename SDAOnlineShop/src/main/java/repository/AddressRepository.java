@@ -20,8 +20,9 @@ public class AddressRepository {
                 String country = rs.getString(2);
                 String city = rs.getString(3);
                 String postalCode = rs.getString(4);
+                String street = rs.getString(5);
 
-                Address address = new Address(addressId, country, city, postalCode);
+                Address address = new Address(addressId, country, city, postalCode,street);
                 addressList.add(address);
             }
             rs.close();
@@ -41,7 +42,6 @@ public class AddressRepository {
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
-            //pstmt.setString(1,Address.getAddressId());
             pstmt.setInt(1,id);
             ResultSet rs = pstmt.executeQuery(selectById);
             while(rs.next()) {
@@ -50,8 +50,9 @@ public class AddressRepository {
                 String country = rs.getString(2);
                 String city = rs.getString(3);
                 String postalCode = rs.getString(4);
+                String street = rs.getString(5);
 
-                Address address = new Address(addressId,country, city, postalCode);
+                Address address = new Address(addressId,country, city, postalCode,street);
                 addressList.add(address);
             }
             rs.close();
@@ -68,7 +69,6 @@ public class AddressRepository {
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
-            //pstmt.setString(1,address.getAddressId());
             pstmt.setInt(1,id);
             int deletedRecords = pstmt.executeUpdate(deleteById);
             pstmt.close();
@@ -79,13 +79,14 @@ public class AddressRepository {
     }
 
     public static void saveNewAddress(Address address) {
-        String newAddress = "INSERT INTO Address VALUES(null,?,?,?)";
+        String newAddress = "INSERT INTO Address VALUES(null,?,?,?,?)";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(newAddress);
             pstmt.setString(1,address.getCountry());
             pstmt.setString(2,address.getCity());
             pstmt.setString(3,address.getPostalCode());
+            pstmt.setString(4,address.getStreet());
 
             int newRecords = pstmt.executeUpdate(newAddress);
             pstmt.close();
@@ -96,7 +97,7 @@ public class AddressRepository {
     }
 
     public static void updateAddressById(int Id,Address address) {
-        String updateAddress = "UPDATE Address SET Country=?, City=?,PostalCode=? where addressId=?";
+        String updateAddress = "UPDATE Address SET Country=?, City=?,PostalCode=?, Street=? where addressId=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateAddress);
@@ -104,6 +105,8 @@ public class AddressRepository {
             pstmt.setString(1,address.getCountry());
             pstmt.setString(2,address.getCity());
             pstmt.setString(3,address.getPostalCode());
+            pstmt.setString(4,address.getStreet());
+            pstmt.setInt(5,Id);
 
             int newRecords = pstmt.executeUpdate(updateAddress);
             pstmt.close();

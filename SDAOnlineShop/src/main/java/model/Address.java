@@ -5,6 +5,7 @@ public class Address {
     private String country;
     private String city;
     private String postalCode;
+    private String street;
 
     public Address( String country, String city, String postalCode) {
         this.country = country;
@@ -12,11 +13,27 @@ public class Address {
         this.postalCode = postalCode;
     }
 
+    public Address(int addressID, String country, String city, String postalCode, String street) {
+        this.addressID = addressID;
+        this.country = country;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.street = street;
+    }
+
     public Address(int addressId, String country, String city, String postalCode) {
         this.addressID = addressId;
         this.country = country;
         this.city = city;
         this.postalCode = postalCode;
+    }
+
+    public String getStreet() {
+        return this.street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public int getAddressID() {

@@ -15,18 +15,19 @@ public class CustomerRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectAll);
             ResultSet rs = pstmt.executeQuery(selectAll);
-            
+            System.out.println(" we are connected to db");
+
             while(rs.next()) {
 
-                int customerId = rs.getInt(1);
-                String first_name = rs.getString(2);
-                String last_name = rs.getString(3);
-                String mail = rs.getString(4);
+                int customerID = rs.getInt(1);
+                String firstName = rs.getString(2);
+                String lastName = rs.getString(3);
+                String mail = rs.getString(4);;
                 String telephone = rs.getString(5);
-                int addressId = rs.getInt(6);
-                int accountId = rs.getInt(7);
-                
-                Customer customer = new Customer(first_name, last_name, mail, telephone, addressId, accountId);
+                int addressID = rs.getInt(6);
+                int accountID = rs.getInt(7);
+
+                Customer customer = new Customer(firstName, lastName, mail, telephone, addressID,accountID);
                 customerList.add(customer);
             }
             rs.close();
@@ -34,30 +35,31 @@ public class CustomerRepository {
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            }
         }
-        return customerList;}
-    
-    public static List<Customer> findById(int Id) {
+        }
+        return customerList;
+    }
+
+    public static List<Customer> findById(int id) {
         List<Customer> customerList = new ArrayList<Customer>();
         String selectById = "SELECT * FROM Customer where customerId=?";
 
-        {try {
+        try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
-            pstmt.setString(1,Id);
+            pstmt.setInt(1,id);
             ResultSet rs = pstmt.executeQuery(selectById);
             while(rs.next()) {
 
-                int customerId = rs.getInt(1);
-                String first_name = rs.getString(2);
-                String last_name = rs.getString(3);
+                int customerID = rs.getInt(1);
+                String firstName = rs.getString(2);
+                String lastName = rs.getString(3);
                 String mail = rs.getString(4);
                 String telephone = rs.getString(5);
-                int addressId = rs.getInt(6);
-                int accountId = rs.getInt(7);
+                int addressID = rs.getInt(6);
+                int accountID = rs.getInt(7);
 
-                Customer customer = new Customer(first_name, last_name, mail, telephone, addressId, accountId);
+                Customer customer = new Customer(firstName, lastName, mail, telephone, addressID,accountID);
                 customerList.add(customer);
             }
             rs.close();
@@ -65,21 +67,24 @@ public class CustomerRepository {
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }}
-        return customerList;}
+        }
+        return customerList;
+    }
 
-    public static void deleteCustomerById(int Id) {
+    public static void deleteCustomerById(int id) {
         String deleteById = "DELETE FROM Customer where customerId=?";
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
-            pstmt.setString(1,Id);
+            //pstmt.setString(1,customer.getCustomerId());
+            pstmt.setInt(1,id);
             int deletedRecords = pstmt.executeUpdate(deleteById);
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }}}
+        }}
+    }
 
     public static void saveNewCustomer(Customer customer) {
         String newCustomer = "INSERT INTO Customer VALUES(null,?,?,?,?,?,?)";
@@ -90,8 +95,8 @@ public class CustomerRepository {
             pstmt.setString(2,customer.getLastName());
             pstmt.setString(3,customer.getMail());
             pstmt.setString(4,customer.getTelephone());
-            pstmt.setString(5,customer.getAddressId());
-            pstmt.setString(6,customer.getAccountId());
+            pstmt.setInt(5,customer.getAddressId());
+            pstmt.setInt(6,customer.getAccountId());
 
             int newRecords = pstmt.executeUpdate(newCustomer);
             pstmt.close();
@@ -105,18 +110,69 @@ public class CustomerRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateCustomer);
-            
+
             pstmt.setString(1,customer.getFirstName());
             pstmt.setString(2,customer.getLastName());
             pstmt.setString(3,customer.getMail());
             pstmt.setString(4,customer.getTelephone());
-            pstmt.setString(5,Id);
+            pstmt.setInt(5,customer.getAccountId());
 
             int newRecords = pstmt.executeUpdate(updateCustomer);
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }}}
-       
+        }}
+    }
+
+    /// Added
+
+    public static List<Customer> findByAccountId(int accountId) {
+        List<Customer> customerList = new ArrayList<Customer>();
+        String selectById = "SELECT * FROM Customer where accountId=?";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(selectById);
+            pstmt.setInt(1,accountId);
+            ResultSet rs = pstmt.executeQuery(selectById);
+            while(rs.next()) {
+
+                int customerID = rs.getInt(1);
+                String firstName = rs.getString(2);
+                String lastName = rs.getString(3);
+                String mail = rs.getString(4);
+                String telephone = rs.getString(5);
+                int addressID = rs.getInt(6);
+
+                Customer customer = new Customer(firstName, lastName, mail, telephone, addressID,accountId);
+                customerList.add(customer);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return customerList;
+    }
+
+    /*public void display(){
+
+        try {
+            if(resultSet.isBeforeFirst()){resultSet.first();}
+            else if(resultSet.isAfterLast()){resultSet.last();}
+
+            String str1 = (resultSet.getString(1));
+            String str2 = (resultSet.getString(2));
+            String str3 = (resultSet.getString(3));
+            String str4 = (resultSet.getString(4));
+
+            System.out.println(str1 +" | "+ str2 + " | " + str3 +" | " +str4);
+
+        }catch (SQLException e){
+            System.out.println( e.getMessage());
+        }
+    }*/
+
 }

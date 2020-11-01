@@ -9,6 +9,11 @@ public class Delivery {
         this.name = name;
         this.deliveryCost = deliveryCost;
     }
+    public Delivery(int deliveryId, String name, int deliveryCost) {
+        this.deliveryId = deliveryId;
+        this.name = name;
+        this.deliveryCost = deliveryCost;
+    }
 
     public int getDeliveryId() {
         return this.deliveryId;

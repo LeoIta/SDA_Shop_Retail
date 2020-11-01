@@ -2,35 +2,44 @@ package model;
 
 public class Customer {
     private int customerId;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String mail;
     private String telephone;
     private int addressId;
     private int accountId;
 
-    public Customer(String first_name, String last_name, String mail, String telephone, int addressId) {
-        this.first_name = first_name;
-        this.last_name = last_name;
+    // Added - constructor for guess user.
+    public Customer(String firstName) {
+        this.firstName = firstName;
+        this.lastName = "guest";
+        this.mail = "unknown";
+        this.telephone = "unknown";
+    }
+
+    public Customer(String firstName, String lastName, String mail, String telephone, int addressID, int accountId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.mail = mail;
         this.telephone = telephone;
-        this.addressId = addressId;
+        this.addressId = addressID;
+        this.accountId = accountId;
     }
 
-    public String getFirst_name() {
-        return this.first_name;
+    public String getFirstName() {
+        return this.firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return this.last_name;
+    public String getLastName() {
+        return this.lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getMail() {
@@ -63,5 +72,20 @@ public class Customer {
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", mail='" + mail + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", addressId=" + addressId +
+                ", accountId=" + accountId +
+                '}';
     }
 }

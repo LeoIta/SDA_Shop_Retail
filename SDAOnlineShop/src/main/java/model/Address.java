@@ -1,23 +1,30 @@
 package model;
 
 public class Address {
-    private int addressId;
+    private int addressID;
     private String country;
     private String city;
     private String postalCode;
 
-    public Address(String country, String city, String postalCode) {
+    public Address( String country, String city, String postalCode) {
         this.country = country;
         this.city = city;
         this.postalCode = postalCode;
     }
 
-    public int getAddressId() {
-        return this.addressId;
+    public Address(int addressId, String country, String city, String postalCode) {
+        this.addressID = addressId;
+        this.country = country;
+        this.city = city;
+        this.postalCode = postalCode;
     }
 
-    public void setAddressId(int addressId) {
-        this.addressId = addressId;
+    public int getAddressID() {
+        return this.addressID;
+    }
+
+    public void setAddressID(int addressId) {
+        this.addressID = addressId;
     }
 
     public String getCountry() {

@@ -1,26 +1,44 @@
 package model;
 
 public class Product {
-    private int idProduct;
+    private int productID;
+    private String type;
     private String color;
     private String size;
     private String productCode;
     private int price;
-    private int orderId;
 
-    public Product(String color, String size, String productCode, int price) {
+    public Product(int productID,String type, String color, String size, String productCode, int price) {
+        this.type = type;
+        this.productID = productID;
         this.color = color;
         this.size = size;
         this.productCode = productCode;
         this.price = price;
     }
 
-    public int getIdProduct() {
-        return this.idProduct;
+    public Product(String type, String color, String size, String productCode, int price) {
+        this.type = type;
+        this.color = color;
+        this.size = size;
+        this.productCode = productCode;
+        this.price = price;
     }
 
-    public void setIdProduct(int idProduct) {
-        this.idProduct = idproduct;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getProductID() {
+        return this.productID;
+    }
+
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 
     public String getColor() {

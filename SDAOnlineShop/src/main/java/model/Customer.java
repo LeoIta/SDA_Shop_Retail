@@ -47,14 +47,6 @@ public class Customer {
         this.customerId = customerId;
     }
 
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
     public String getFirstName() {
         return this.firstName;
     }
@@ -108,6 +100,7 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
+                "customerId=" + customerId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", mail='" + mail + '\'' +

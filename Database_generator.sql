@@ -52,7 +52,6 @@ orderId  int NOT NULL,
 customerId int,
 deliveryId int,
 productId int NOT NULL,
-PRIMARY KEY (orderId),
 FOREIGN KEY(customerId) REFERENCES customer(customerId),
 FOREIGN KEY(deliveryId) REFERENCES delivery(deliveryId),
 FOREIGN KEY(productId) REFERENCES product(productId)

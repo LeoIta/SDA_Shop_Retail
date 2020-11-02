@@ -14,7 +14,7 @@ public class CustomerRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectAll);
-            ResultSet rs = pstmt.executeQuery(selectAll);
+            ResultSet rs = pstmt.executeQuery();
             System.out.println(" we are connected to db");
 
             while(rs.next()) {
@@ -48,7 +48,7 @@ public class CustomerRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
             pstmt.setInt(1,id);
-            ResultSet rs = pstmt.executeQuery(selectById);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
 
                 int customerID = rs.getInt(1);
@@ -76,9 +76,8 @@ public class CustomerRepository {
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
-            //pstmt.setString(1,customer.getCustomerId());
             pstmt.setInt(1,id);
-            int deletedRecords = pstmt.executeUpdate(deleteById);
+            int deletedRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -98,7 +97,7 @@ public class CustomerRepository {
             pstmt.setInt(5,customer.getAddressId());
             pstmt.setInt(6,customer.getAccountId());
 
-            int newRecords = pstmt.executeUpdate(newCustomer);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -117,7 +116,7 @@ public class CustomerRepository {
             pstmt.setString(4,customer.getTelephone());
             pstmt.setInt(5,customer.getAccountId());
 
-            int newRecords = pstmt.executeUpdate(updateCustomer);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -184,7 +183,7 @@ public class CustomerRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
             pstmt.setInt(1,accountId);
-            ResultSet rs = pstmt.executeQuery(selectById);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
 
                 int customerID = rs.getInt(1);

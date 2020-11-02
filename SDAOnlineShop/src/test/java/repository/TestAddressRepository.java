@@ -53,18 +53,6 @@ public class TestAddressRepository {
     }
 
     @Test
-    @DisplayName("DeleteAddressById")
-    public void checkDeleteAddressById(){
-        List<Address> addressList = AddressRepository.findAll();
-        int size = addressList.size();
-        int lastId = addressList.get(size-1).getAddressID();
-        AddressRepository.deleteAddressById(lastId);
-        List<Address> addressList1 = AddressRepository.findAll();
-        assert size - addressList1.size() == 1;
-//        Assertions.assertEquals(address2.toString(),addressList1.get(addressList1.size()-1).toString());
-    }
-
-    @Test
     @DisplayName("UpdateAddressById")
     public void checkUpdateAddressById(){
         List<Address> addressList = AddressRepository.findById(2);
@@ -72,5 +60,20 @@ public class TestAddressRepository {
         addressList = AddressRepository.findById(2);
         Assertions.assertEquals(address3.toString(),addressList.get(0).toString());
     }
+
+    @Test
+    @DisplayName("DeleteAddressById")
+    public void checkDeleteAddressById(){
+        List<Address> addressList = AddressRepository.findAll();
+        int size = addressList.size();
+        int lastId = addressList.get(size-1).getAddressID();
+        System.out.println(size);
+        AddressRepository.deleteAddressById(lastId);
+        List<Address> addressList1 = AddressRepository.findAll();
+        assert size - addressList1.size() == 1;
+        Assertions.assertEquals(address2.toString(),addressList1.get(addressList1.size()-1).toString());
+    }
+
+
 
 }

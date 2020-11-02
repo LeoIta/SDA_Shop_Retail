@@ -1,12 +1,68 @@
+create database if not exists sda_online_shop;
 use sda_online_shop;
+create table if not exists address(
+addressId int NOT NULL auto_increment,
+Country varchar(45) NOT NULL,
+City varchar(45) NOT NULL,
+PostalCode varchar(45) NOT NULL,
+Street varchar(45) NOT NULL,
+PRIMARY KEY (addressId) 
+);
+create table if not exists delivery(
+deliveryId  int NOT NULL auto_increment,
+`name` varchar(45) NOT NULL,
+deliveryCost int NOT NULL,
+PRIMARY KEY (deliveryId)
+);
+create table if not exists login(
+accountId int NOT NULL auto_increment,
+userName  varchar(45) NOT NULL UNIQUE,
+`password`  varchar(45) NOT NULL,
+PRIMARY KEY (accountId)
+);
+create table if not exists `storage`(
+productCode varchar(45) NOT NULL UNIQUE,
+available_quantity int NOT NULL,
+PRIMARY KEY (productCode)
+);
+create table if not exists product(
+productId int NOT NULL auto_increment,
+`type`  varchar(45) NOT NULL,
+color  varchar(45) NOT NULL,
+size  varchar(45) NOT NULL,
+productCode varchar(45) NOT NULL,
+price int NOT NULL,
+PRIMARY KEY (productId),
+FOREIGN KEY(productcode) REFERENCES storage(productcode)
+);
+create table if not exists customer(
+customerId int NOT NULL auto_increment,
+first_name  varchar(45) NOT NULL,
+last_name  varchar(45) NOT NULL,
+email  varchar(45) NOT NULL,
+telephone  varchar(45) NOT NULL,
+addressId  int NOT NULL,
+accountId int NOT NULL,
+PRIMARY KEY (customerId),
+FOREIGN KEY(addressId) REFERENCES address(addressId),
+FOREIGN KEY(accountId) REFERENCES login(accountId)
+);
+create table if not exists `order`(
+orderId  int NOT NULL,
+customerId int,
+deliveryId int,
+productId int NOT NULL,
+PRIMARY KEY (orderId),
+FOREIGN KEY(customerId) REFERENCES customer(customerId),
+FOREIGN KEY(deliveryId) REFERENCES delivery(deliveryId),
+FOREIGN KEY(productId) REFERENCES product(productId)
+);
 insert into delivery 
 values
 (null,'DHL',20),
 (null,'FEDEX',30),
 (null,'UPS',25);
-
-
-insert into storage 
+insert into `storage` 
 values
 ('0JNS00XS00RD',10),
 ('0JNS00SS00RD',13),
@@ -430,3 +486,20 @@ values
 (null,'COAT','BLUE','M','0CAT00MM00BE',100),
 (null,'COAT','BLUE','L','0CAT00LL00BE',100),
 (null,'COAT','BLUE','XL','0CAT00XL00BE',100);
+insert into login 
+values
+(null,'Leo','Leo'),
+(null,'Mikael','Mikael');
+insert into address
+values
+(null,'Estonia','Tallin','10145','Maakri 19/1'),
+(null,'Poland','Gdynia','81-451','aleja Zwyciestwa 96/98'),
+(null,'Italy','Rome','00186','Via del Corso 114/115');
+insert into customer
+values
+(null,'Leo','Lorusso','leo@gmail.com','+481234567',1,1),
+(null,'Mikael','Gael','Mikael@gmail.com','+372123456',2,2);
+insert into `order`
+values
+(1,1,1,1),
+(2,2,2,2);

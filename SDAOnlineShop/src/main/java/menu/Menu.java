@@ -23,13 +23,13 @@ public class Menu {
         Scanner scan = new Scanner(System.in);
         int userType = scan.nextInt();
 
-        while( userType!=1 || userType!=2 || userType!=3){
+        while( userType!=1 && userType!=2 && userType!=3){
             System.out.println("wrong choice : please type (1) , (2) or (3) from your Keyboard");
             userType = scan.nextInt();
         }
 
         if (userType == 1){
-            String firstName, lastName, email, telephone, country, city, postalCode, userName, password;
+            String firstName, lastName, email, telephone, country, city, postalCode, street, userName, password;
 
             System.out.println(" In oder to register please provide us with the following information : first Name  , Last Name, email , telephone and Address");
             System.out.println("1) enter your firstname : ");
@@ -44,8 +44,7 @@ public class Menu {
             System.out.println("4) Enter your telephone  : ");
             telephone = scan.nextLine();
 
-            System.out.println("2) Enter your last name : ");
-            lastName = scan.nextLine();
+
 
             System.out.println(" Now lets add your delivery information: ");
 
@@ -58,6 +57,9 @@ public class Menu {
             System.out.println("3) Enter your postal Code : ");
             postalCode = scan.nextLine();
 
+            System.out.println("4) Enter your postal Code : ");
+            street = scan.nextLine();
+
             System.out.println(" Create a username and a password for your account ");
 
             System.out.println("1) Enter your username: ");
@@ -65,10 +67,11 @@ public class Menu {
 
             System.out.println("2) Enter your password: ");
             password    = scan.nextLine();
-            Login login = new Login(userName, password);
+
+            Login login = new Login(userName, password); // add a function to check unique username.
             LoginRepository.saveNewLogin(login);
 
-            Address address = new Address(country,city,postalCode);
+            Address address = new Address(country,city,postalCode); // street to add
             AddressRepository.saveNewAddress(address);
 
             int accountId = LoginRepository.getLastLoginId();
@@ -84,27 +87,31 @@ public class Menu {
             String userName , password;
 
             System.out.println(" Please Login  - \n Enter: your username: ");
+            scan.nextLine();
             userName = scan.nextLine();
             System.out.println("Enter your password");
+            //scan.nextLine();
             password = scan.nextLine();
-
+            System.out.println(password.equals("Mikael")+"    |    "+ userName.equals("Mikael"));
             List<Login> logins = LoginRepository.findAccountId(userName, password);
 
             while ( logins.size() == 0){
 
                 System.out.println(" there is no user with this username and password : please retype your username and password");
                 System.out.println(" Enter: your username: ");
+                scan.nextLine();
                 userName = scan.nextLine();
                 System.out.println("Enter your password");
+                scan.nextLine();
                 password = scan.nextLine();
 
             }
 
             int nbOfAccountId = LoginRepository.findAll().size();
-            int accountId = LoginRepository.findAll().get(nbOfAccountId).getAccountID();
+            int accountId = LoginRepository.findAll().get(nbOfAccountId-1).getAccountID();
 
             int nbOfCustomer = CustomerRepository.findByAccountId(accountId).size();
-            return  CustomerRepository.findByAccountId(accountId).get(nbOfCustomer) ;
+            return  CustomerRepository.findByAccountId(accountId).get(nbOfCustomer-1) ;
 
 
         }else {
@@ -115,7 +122,7 @@ public class Menu {
     }
 
     public static void welcomeCustomer(Customer customer, int usertype){
-        if ( usertype == 2 ){
+        if ( usertype == 3 ){
             System.out.println( " You are shopping as a guest. Enjoy your shopping ");
         }else{
             System.out.println(" Welcome Dear "+customer.getFirstName()+" "+customer.getLastName()+ " Enjoy your shopping ");
@@ -166,8 +173,9 @@ public class Menu {
 
 
 
-
     public static void main(String[] args) {
+
+
         // We will need this to get customer info and choice
         Scanner scan = new Scanner(System.in);
 
@@ -191,7 +199,7 @@ public class Menu {
         int nbOfItemBought = 0;
 
         if (outOfStock){
-            System.out.println(" Sorry we are out of stock please come next time . Thank you");
+            System.out.println("Sorry we are out of stock please come next time . Thank you");
         }else{
             displayAvailableItem(productList);
 
@@ -204,17 +212,22 @@ public class Menu {
 
                 }else{
                     boolean wrongChoice = !((chosenItem >= 1) && (chosenItem <=availableChoice));
-                    boolean chosenItemOutOfStock = !(wrongChoice) && (StorageRepository.getQtyByCode( productList.get( chosenItem -1).getColor() ) < 1);
 
-                    while( wrongChoice || chosenItemOutOfStock ){
+                    boolean chosenItemOutOfStock = !(wrongChoice) && (StorageRepository.getQtyByCode( productList.get( chosenItem -1).getProductCode() ) < 1);
+
+                    //while( wrongChoice || chosenItemOutOfStock ){
+                    while( wrongChoice ){
                         if (wrongChoice) { System.out.println("wrong product selected try again by pressing the number before the item of your choice");}
-                        else { System.out.println("this product is out of stock choose an available product "); }
+                        else if (chosenItemOutOfStock){ System.out.println("this product is out of stock choose an available product "); }
                         displayAvailableItem(productList);
                         chosenItem = scan.nextInt();
+                        wrongChoice = !((chosenItem >= 1) && (chosenItem <=availableChoice));
                     }
+                    System.out.println("you sucessfully bought the item \n select another product  or Press (0) to exit and Pay : ");
                     // we Add the product to the customer shopping cart and reduce the quantity from the storage
                     shoppingCart.add( productList.get(chosenItem -1));
                     StorageRepository.updateStorageByCode(productList.get( chosenItem -1).getProductCode(),1);
+                    displayAvailableItem(productList);
                     boughtSomething = true;
                     nbOfItemBought ++;
 
@@ -258,7 +271,7 @@ public class Menu {
                 Delivery cstDeliveryMethod = deliveryList.get(chosenDelivery-1);
                 int deliveryId = cstDeliveryMethod.getDeliveryId();
 
-                OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), deliveryId, shoppingCart.get(0).getProductID()));
+                //OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), deliveryId, shoppingCart.get(0).getProductID()));
                 // and for each item both we save a new order row in the the order table with same order id and same customerId
                 for ( int i =0;  i < nbOfItemBought ; i++){
                     OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), deliveryId, shoppingCart.get(i).getProductID()));
@@ -272,7 +285,7 @@ public class Menu {
                 System.out.println("_________________________________________________________________________________________________________________");
             }else{
 
-                OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), shoppingCart.get(0).getProductID()));
+                //OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), shoppingCart.get(0).getProductID()));
                 // and for each item both we save a new order row in the the order table with same order id and same customerId
                 for ( int i =0;  i < nbOfItemBought ; i++){
                     OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), shoppingCart.get(i).getProductID()));

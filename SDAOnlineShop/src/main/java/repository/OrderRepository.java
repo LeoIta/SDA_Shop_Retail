@@ -18,7 +18,7 @@ public class OrderRepository {
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectAll);
-            ResultSet rs = pstmt.executeQuery(selectAll);
+            ResultSet rs = pstmt.executeQuery();
 
             while(rs.next()) {
 
@@ -41,12 +41,12 @@ public class OrderRepository {
 
     public static int getLastOrderId(){
         int orderId = 0 ;
-        String lastOrderId = "SELECT MAX(orderId) FROM order";
+        String lastOrderId = "SELECT MAX(orderId) FROM `order`";
 
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(lastOrderId);
-            ResultSet rs = pstmt.executeQuery(lastOrderId);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
                 orderId = rs.getInt(1);
             }
@@ -67,7 +67,7 @@ public class OrderRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
             pstmt.setInt(1,id);
-            ResultSet rs = pstmt.executeQuery(selectById);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
                 int customerId  = rs.getInt(2);
                 int deliveryId  = rs.getInt(3);
@@ -91,7 +91,7 @@ public class OrderRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
             pstmt.setInt(1,id);
-            int deletedRecords = pstmt.executeUpdate(deleteById);
+            int deletedRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -100,7 +100,7 @@ public class OrderRepository {
     }
 
     public static void saveNewOrder(Order order) {
-        String newOrder = "INSERT INTO order VALUES(?,?,?,?)";
+        String newOrder = "INSERT INTO `order` VALUES(?,?,?,?)";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(newOrder);
@@ -109,7 +109,7 @@ public class OrderRepository {
             pstmt.setInt(3,order.getDeliveryId());
             pstmt.setInt(4,order.getProductId());
 
-            int newRecords = pstmt.executeUpdate(newOrder);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -126,7 +126,7 @@ public class OrderRepository {
             pstmt.setInt(1,order.getOrderId());
             pstmt.setInt(2,order.getProductId());
 
-            int newRecords = pstmt.executeUpdate(updateQtyById);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -142,7 +142,7 @@ public class OrderRepository {
             pstmt.setInt(1,deliveryId);
             pstmt.setInt(2,order.getOrderId());
 
-            int newRecords = pstmt.executeUpdate(updateQtyById);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {

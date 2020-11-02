@@ -17,7 +17,7 @@ public class StorageRepository {
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectAll);
-            ResultSet rs = pstmt.executeQuery(selectAll);
+            ResultSet rs = pstmt.executeQuery();
 
             while(rs.next()) {
                 String userName = rs.getString(1);
@@ -43,10 +43,10 @@ public class StorageRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(getQty);
             pstmt.setString(1,code);
-            ResultSet rs = pstmt.executeQuery(getQty);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
-                String productCode = rs.getString(1);
-                qty = rs.getInt(2);
+                //String productCode = rs.getString(1, code);
+                qty = rs.getInt(1);
 
             }
             rs.close();
@@ -66,7 +66,7 @@ public class StorageRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectByCode);
             pstmt.setString(1,code);
-            ResultSet rs = pstmt.executeQuery(selectByCode);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
                 String productCode = rs.getString(1);
                 int quantity = rs.getInt(2);
@@ -88,7 +88,7 @@ public class StorageRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteByCode);
             pstmt.setString(1,code);
-            int deletedRecords = pstmt.executeUpdate(deleteByCode);
+            int deletedRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -103,8 +103,8 @@ public class StorageRepository {
             PreparedStatement pstmt = connection.prepareStatement(saveNewStorage);
             pstmt.setString(1,storage.getProductCode());
             pstmt.setInt(2,storage.getAvailable_quantity());
-
-            int newRecords = pstmt.executeUpdate(saveNewStorage);
+            System.out.println("we are here in storage");
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -114,8 +114,9 @@ public class StorageRepository {
 
     public static void updateStorageByCode(String code, int soldQty) {
         Storage storage = findByCode(code);
+        soldQty = 1;
         int newAvailableQty = storage.getAvailable_quantity() - soldQty;
-        String updateStorage = "UPDATE storage SET available_quantity=?, where productCode=?";
+        String updateStorage = "UPDATE storage SET available_quantity=? where productCode=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateStorage);
@@ -123,7 +124,7 @@ public class StorageRepository {
             pstmt.setInt(1,newAvailableQty);
             pstmt.setString(2,code);
 
-            int newRecords = pstmt.executeUpdate(updateStorage);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {

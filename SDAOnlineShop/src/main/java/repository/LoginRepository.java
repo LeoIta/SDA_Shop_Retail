@@ -118,14 +118,15 @@ public class LoginRepository {
             //pstmt.setString(1,login.getAccountId());
             pstmt.setString(1,userName);
             pstmt.setString(2,password);
-            ResultSet rs = pstmt.executeQuery(selectById);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
 
                 int accountId = rs.getInt(1);
 
                 Login login = new Login(accountId, userName, password);
                 loginList.add(login);
-            }
+           }
+
             rs.close();
             pstmt.close();
             connection.close();

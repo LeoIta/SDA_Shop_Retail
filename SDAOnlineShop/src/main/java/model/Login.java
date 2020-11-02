@@ -5,6 +5,10 @@ public class Login {
     private String userName;
     private String password;
 
+    public Login(){
+
+    }
+
     public Login(int accountID, String userName, String password) {
         this.accountID = accountID;
         this.userName = userName;

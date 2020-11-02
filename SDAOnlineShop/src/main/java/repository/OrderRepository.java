@@ -39,6 +39,26 @@ public class OrderRepository {
         return orderList;
     }
 
+    public static int getLastOrderId(){
+        int orderId = 0 ;
+        String lastOrderId = "SELECT MAX(orderId) FROM order";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(lastOrderId);
+            ResultSet rs = pstmt.executeQuery(lastOrderId);
+            while(rs.next()) {
+                orderId = rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return orderId;
+    }
+
     public static List<Order> findById(int id) {
         List<Order> orderList = new ArrayList<Order>();
         String selectById = "SELECT * FROM order where orderId=?";

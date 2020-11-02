@@ -4,6 +4,10 @@ public class Storage {
     private String productCode;
     private int available_quantity;
 
+    public Storage(){
+
+    }
+
     public Storage(String productCode, int available_quantity) {
         this.productCode = productCode;
         this.available_quantity = available_quantity;

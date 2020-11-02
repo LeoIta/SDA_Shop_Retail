@@ -5,6 +5,10 @@ public class Delivery {
     private String name;
     private int deliveryCost;
 
+    public Delivery(){
+
+    }
+
     public Delivery(String name, int deliveryCost) {
         this.name = name;
         this.deliveryCost = deliveryCost;

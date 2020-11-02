@@ -10,6 +10,10 @@ public class Customer {
     private int accountId;
 
     // Added - constructor for guess user.
+    public Customer(){
+
+    }
+
     public Customer(String firstName) {
         this.firstName = firstName;
         this.lastName = "guest";
@@ -24,6 +28,23 @@ public class Customer {
         this.telephone = telephone;
         this.addressId = addressID;
         this.accountId = accountId;
+    }
+    public Customer(int customerId, String firstName, String lastName, String mail, String telephone, int addressID, int accountId) {
+        this.customerId = customerId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mail = mail;
+        this.telephone = telephone;
+        this.addressId = addressID;
+        this.accountId = accountId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getFirstName() {

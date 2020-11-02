@@ -1,4 +1,5 @@
 package repository;
+import model.Address;
 import model.Login;
 import util.DBUtil;
 import java.sql.*;
@@ -62,6 +63,51 @@ public class LoginRepository {
     }
 
     //// added
+    public static int getLastLoginId(){
+        int accountId = 0 ;
+        String lastAccountId = "SELECT MAX(accountId) FROM login";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(lastAccountId);
+            ResultSet rs = pstmt.executeQuery(lastAccountId);
+            while(rs.next()) {
+                accountId = rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return accountId;
+    }
+
+    public  static Login getLastAddedLogin(){
+        Login login = new Login();
+        String getLastLogin = "SELECT * FROM login WHERE accountId=(SELECT MAX(accountId) FROM login)";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(getLastLogin);
+            ResultSet rs = pstmt.executeQuery(getLastLogin);
+            while(rs.next()) {
+
+                int accountId = rs.getInt(1);
+                String userName = rs.getString(2);
+                String password = rs.getString(3);
+
+                login = new Login(accountId, userName, password);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return login;
+    }
+
     public static List<Login> findAccountId(String userName, String password) {
         List<Login> loginList = new ArrayList<Login>();
         String selectById = "SELECT accountId FROM login where userName=? and password=?";

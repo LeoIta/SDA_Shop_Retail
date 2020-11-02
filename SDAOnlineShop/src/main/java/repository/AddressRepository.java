@@ -35,6 +35,52 @@ public class AddressRepository {
         return addressList;
     }
 
+    public static int getLastAddressId(){
+        int addressId = 0 ;
+        String lastAddressId = "SELECT MAX(addressId) FROM address";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(lastAddressId);
+            ResultSet rs = pstmt.executeQuery(lastAddressId);
+            while(rs.next()) {
+                addressId = rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return addressId;
+    }
+
+    public static Address getLastAddedAddress(){
+        Address address =new Address();
+        String getLastAddress = "SELECT * FROM address WHERE addressId=(SELECT MAX(addressId) FROM address)";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(getLastAddress);
+            ResultSet rs = pstmt.executeQuery(getLastAddress);
+            while(rs.next()) {
+
+                int addressId = rs.getInt(1);
+                String country = rs.getString(2);
+                String city = rs.getString(3);
+                String postalCode = rs.getString(4);
+                address = new Address(addressId,country, city, postalCode);
+
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return address;
+    }
+
     public static List<Address> findById(int id) {
         List<Address> addressList = new ArrayList<Address>();
         String selectById = "SELECT * FROM address where addressId=?";

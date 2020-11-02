@@ -127,6 +127,55 @@ public class CustomerRepository {
 
     /// Added
 
+    public static int getLastCustomerId(){
+        int customerId = 0 ;
+        String lastCustomerId = "SELECT MAX(customerId) FROM customer";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(lastCustomerId);
+            ResultSet rs = pstmt.executeQuery(lastCustomerId);
+            while(rs.next()) {
+                customerId = rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return customerId;
+    }
+
+    public static Customer getLastAddedCustomer(){
+        //SELECT * FROM customer WHERE customerId=(SELECT MAX(customerId) FROM customer);
+        String getLastCustomer = "SELECT * FROM customer WHERE customerId=(SELECT MAX(customerId) FROM customer)";
+        Customer customer = new Customer();
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(getLastCustomer);
+            ResultSet rs = pstmt.executeQuery(getLastCustomer);
+            while(rs.next()) {
+
+                int customerID = rs.getInt(1);
+                String firstName = rs.getString(2);
+                String lastName = rs.getString(3);
+                String mail = rs.getString(4);
+                String telephone = rs.getString(5);
+                int addressID = rs.getInt(6);
+                int accountId = rs.getInt(7);
+
+                customer = new Customer(customerID, firstName, lastName, mail, telephone, addressID,accountId);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return customer;
+    }
+
     public static List<Customer> findByAccountId(int accountId) {
         List<Customer> customerList = new ArrayList<Customer>();
         String selectById = "SELECT * FROM Customer where accountId=?";
@@ -145,7 +194,7 @@ public class CustomerRepository {
                 String telephone = rs.getString(5);
                 int addressID = rs.getInt(6);
 
-                Customer customer = new Customer(firstName, lastName, mail, telephone, addressID,accountId);
+                Customer customer = new Customer(customerID, firstName, lastName, mail, telephone, addressID,accountId);
                 customerList.add(customer);
             }
             rs.close();
@@ -156,6 +205,7 @@ public class CustomerRepository {
         }
         return customerList;
     }
+
 
     /*public void display(){
 

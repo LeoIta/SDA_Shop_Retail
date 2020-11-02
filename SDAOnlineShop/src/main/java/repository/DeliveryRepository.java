@@ -9,7 +9,7 @@ public class DeliveryRepository {
     public static List<Delivery> findAll() {
         List<Delivery> deliveryList = new ArrayList<Delivery>();
         String selectAll = "SELECT * FROM delivery";
-        {try {
+        try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectAll);
             ResultSet rs = pstmt.executeQuery(selectAll);
@@ -29,11 +29,33 @@ public class DeliveryRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        }
-        return deliveryList;}
 
-    public static List<Delivery> findById(int id) {
-        List<Delivery> deliveryList = new ArrayList<Delivery>();
+        return deliveryList;
+    }
+
+    public static int getIdByName(String cpyName){
+        int deliveryId = 0;
+        String getId = "SELECT deliveryId FROM delivery where name=?";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(getId);
+            pstmt.setString(1,cpyName);
+            ResultSet rs = pstmt.executeQuery(getId);
+            while(rs.next()) {
+                deliveryId = rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return deliveryId;
+    }
+
+    public static Delivery findById(int id) {
+        Delivery delivery = new Delivery();
         String selectById = "SELECT * FROM delivery where deliveryId=?";
 
         try {
@@ -42,13 +64,10 @@ public class DeliveryRepository {
             pstmt.setInt(1,id);
             ResultSet rs = pstmt.executeQuery(selectById);
             while(rs.next()) {
-
                 int deliveryId = rs.getInt(1);
                 String name = rs.getString(2);
                 int deliveryCost = rs.getInt(3);
-
-                Delivery delivery = new Delivery(deliveryId, name, deliveryCost);
-                deliveryList.add(delivery);
+                delivery = new Delivery(deliveryId, name, deliveryCost);
             }
             rs.close();
             pstmt.close();
@@ -56,7 +75,7 @@ public class DeliveryRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return deliveryList;
+        return delivery;
     }
 
     public static void deleteDeliveryById(int id) {

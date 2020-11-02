@@ -35,8 +35,31 @@ public class StorageRepository {
         return storageList;
     }
 
-    public static List<Storage> findByCode(String code) {
-        List<Storage> storageList = new ArrayList<Storage>();
+    public static int getQtyByCode(String code) {
+        int qty = 0;
+        String getQty = "SELECT available_quantity FROM storage where productCode=?";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(getQty);
+            pstmt.setString(1,code);
+            ResultSet rs = pstmt.executeQuery(getQty);
+            while(rs.next()) {
+                String productCode = rs.getString(1);
+                qty = rs.getInt(2);
+
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return qty;
+    }
+
+    public static Storage findByCode(String code) {
+        Storage storage = new Storage();
         String selectByCode = "SELECT * FROM storage where productCode=?";
 
         try {
@@ -48,8 +71,7 @@ public class StorageRepository {
                 String productCode = rs.getString(1);
                 int quantity = rs.getInt(2);
 
-                Storage storage = new Storage(productCode, quantity);
-                storageList.add(storage);
+                storage = new Storage(productCode, quantity);
             }
             rs.close();
             pstmt.close();
@@ -57,7 +79,7 @@ public class StorageRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return storageList;
+        return storage;
     }
 
     public static void deleteStorageByCode(String code) { // wont be needed
@@ -91,8 +113,8 @@ public class StorageRepository {
     }
 
     public static void updateStorageByCode(String code, int soldQty) {
-        List<Storage> storageList = findByCode(code);
-        int newAvailableQty = storageList.get(1).getAvailable_quantity() - soldQty;
+        Storage storage = findByCode(code);
+        int newAvailableQty = storage.getAvailable_quantity() - soldQty;
         String updateStorage = "UPDATE storage SET available_quantity=?, where productCode=?";
         try {
             Connection connection = DBUtil.newConnection();

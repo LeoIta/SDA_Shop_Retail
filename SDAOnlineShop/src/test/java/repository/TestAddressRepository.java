@@ -19,7 +19,6 @@ public class TestAddressRepository {
         addressListTest.add(address1);
         addressListTest.add(address2);
         address3 = new Address(3,"Italy","Rome","00186","Via del Corso 114/115");
-        AddressRepository.updateAddressById(2,address2);
         }
 
     @Test()

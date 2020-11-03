@@ -17,7 +17,6 @@ import java.util.List;
         customerListTest.add(customer1);
         customerListTest.add(customer2);
         customer3 = new Customer("Joel","Raqid","Joel@gmail.com","+391234567",2,2);
-        CustomerRepository.updateCustomerById(2,customer2);
     }
 
     @Test

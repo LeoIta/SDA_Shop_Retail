@@ -18,7 +18,6 @@ public class TestDeliveryRepository {
             deliveryListTest.add(delivery1);
             deliveryListTest.add(delivery2);
             delivery3 = new Delivery("UPS",25);
-            DeliveryRepository.updateDeliveryById(2,delivery2);
         }
 
         @Test
@@ -49,7 +48,7 @@ public class TestDeliveryRepository {
         }
 
         @Test
-        @DisplayName("UpdateLoginById")
+        @DisplayName("UpdateDeliveryById")
         public void checkUpdateDeliveryById(){
             DeliveryRepository.updateDeliveryById(2,delivery3);
             Delivery deliveryList = DeliveryRepository.findById(2);

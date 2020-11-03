@@ -14,7 +14,7 @@ public class OrderRepository {
 
     public static List<Order> findAll() {
         List<Order> orderList = new ArrayList<Order>();
-        String selectAll = "SELECT * FROM order";
+        String selectAll = "SELECT * FROM `order`";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectAll);
@@ -25,7 +25,7 @@ public class OrderRepository {
                 int orderId = rs.getInt(1);
                 int customerId  = rs.getInt(2);
                 int deliveryId  = rs.getInt(3);
-                int productId  = rs.getInt(3);
+                int productId  = rs.getInt(4);
 
                 Order order = new Order(orderId, customerId, deliveryId, productId);
                 orderList.add(order);
@@ -61,7 +61,7 @@ public class OrderRepository {
 
     public static List<Order> findById(int id) {
         List<Order> orderList = new ArrayList<Order>();
-        String selectById = "SELECT * FROM order where orderId=?";
+        String selectById = "SELECT * FROM `order` where orderId=?";
 
         try {
             Connection connection = DBUtil.newConnection();
@@ -86,7 +86,7 @@ public class OrderRepository {
     }
 
     public static void deleteOrderById(int id) {
-        String deleteById = "DELETE FROM order where orderId=?";
+        String deleteById = "DELETE FROM `order` where orderId=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
@@ -117,14 +117,14 @@ public class OrderRepository {
         }
     }
 
-    public static void updateProductById(Order order) {
-        String updateQtyById = "UPDATE order SET productId=?, where orderId=?";
+    public static void updateProductById(int productId, Order order) {
+        String updateQtyById = "UPDATE `order` SET productId=? where orderId=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateQtyById);
 
-            pstmt.setInt(1,order.getOrderId());
-            pstmt.setInt(2,order.getProductId());
+            pstmt.setInt(1,productId);
+            pstmt.setInt(2,order.getOrderId());
 
             int newRecords = pstmt.executeUpdate();
             pstmt.close();
@@ -134,7 +134,7 @@ public class OrderRepository {
         }
     }
     public static void updateDeliveryById(int deliveryId, Order order) { //We add this when the customer choose delivery
-        String updateQtyById = "UPDATE order SET deliveryId=?, where orderId=?";
+        String updateQtyById = "UPDATE `order` SET deliveryId=? where orderId=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateQtyById);

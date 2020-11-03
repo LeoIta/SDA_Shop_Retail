@@ -43,7 +43,7 @@ public class LoginRepository {
             PreparedStatement pstmt = connection.prepareStatement(selectById);
             //pstmt.setString(1,login.getAccountId());
             pstmt.setString(1,""+id+"");
-            ResultSet rs = pstmt.executeQuery(selectById);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
 
                 int accountId = rs.getInt(1);
@@ -146,7 +146,7 @@ public class LoginRepository {
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
             //pstmt.setString(1,login.getAccountId());
             pstmt.setString(1,Integer.toString(id));
-            int deletedRecords = pstmt.executeUpdate(deleteById);
+            int deletedRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -177,9 +177,9 @@ public class LoginRepository {
 
             pstmt.setString(1,login.getUserName());
             pstmt.setString(2,login.getPassword());
-            pstmt.setInt(2,Id);
+            pstmt.setInt(3,Id);
 
-            int newRecords = pstmt.executeUpdate(updateLogin);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {

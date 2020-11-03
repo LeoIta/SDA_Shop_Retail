@@ -2,13 +2,10 @@ package repository;
 
 import model.Address;
 import org.junit.jupiter.api.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestAddressRepository {
-
-
 
     public List<Address> addressListTest = new ArrayList<Address>();
     public Address address1;
@@ -25,7 +22,7 @@ public class TestAddressRepository {
         AddressRepository.updateAddressById(2,address2);
         }
 
-    @Test
+    @Test()
     @DisplayName("FindAll")
     public void checkFindAll(){
         List<Address> addressList = AddressRepository.findAll();
@@ -34,14 +31,14 @@ public class TestAddressRepository {
         Assertions.assertEquals(addressListTest.get(1).toString(),addressList.get(1).toString());
         }
 
-    @Test
-    @DisplayName("FindById")
-    public void checkFindById(){
-        Address address = AddressRepository.findById(2);
-        Assertions.assertEquals(address2.toString(),address.toString());
-        }
+    @Test()
+    @DisplayName("getLastAddedAddress")
+    public void checkGetLastAddedAddress(){
+        Address address = AddressRepository.getLastAddedAddress();
+        Assertions.assertEquals(address3.toString(),address.toString());
+    }
 
-    @Test
+    @Test()
     @DisplayName("SaveNew")
     public void checkSaveNewAddress(){
         List<Address> addressList = AddressRepository.findAll();
@@ -52,7 +49,20 @@ public class TestAddressRepository {
         Assertions.assertEquals(address3.toString(),addressList1.get(2).toString());
     }
 
-    @Test
+    @Test()
+    @DisplayName("GetLastAddressId")
+    public void checkGetLastAddressId(){
+        assert AddressRepository.getLastAddressId()==2;
+    }
+
+    @Test()
+    @DisplayName("FindById")
+    public void checkFindById(){
+        Address address = AddressRepository.findById(2);
+        Assertions.assertEquals(address2.toString(),address.toString());
+        }
+
+    @Test()
     @DisplayName("UpdateAddressById")
     public void checkUpdateAddressById(){
         Address address  = AddressRepository.findById(2);
@@ -61,19 +71,16 @@ public class TestAddressRepository {
         Assertions.assertEquals(address3.toString(),address.toString());
     }
 
-    @Test
+    @Test()
     @DisplayName("DeleteAddressById")
     public void checkDeleteAddressById(){
         List<Address> addressList = AddressRepository.findAll();
         int size = addressList.size();
-        int lastId = addressList.get(size-1).getAddressID();
-        System.out.println(size);
+        int lastId = AddressRepository.getLastAddressId();
         AddressRepository.deleteAddressById(lastId);
-        List<Address> addressList1 = AddressRepository.findAll();
-        assert size - addressList1.size() == 1;
-        Assertions.assertEquals(address2.toString(),addressList1.get(addressList1.size()-1).toString());
+        addressList = AddressRepository.findAll();
+        assert size - addressList.size() == 1;
+        Assertions.assertEquals(address2.toString(),addressList.get(addressList.size()-1).toString());
     }
-
-
 
 }

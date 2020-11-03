@@ -1,5 +1,12 @@
 package model;
 
+import util.DBUtil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Delivery {
     private int deliveryId;
     private String name;

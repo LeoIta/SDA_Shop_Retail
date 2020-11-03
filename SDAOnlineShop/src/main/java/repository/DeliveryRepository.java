@@ -62,7 +62,7 @@ public class DeliveryRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
             pstmt.setInt(1,id);
-            ResultSet rs = pstmt.executeQuery(selectById);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
                 int deliveryId = rs.getInt(1);
                 String name = rs.getString(2);
@@ -85,7 +85,7 @@ public class DeliveryRepository {
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
             //pstmt.setString(1,delivery.getDeliveryId());
             pstmt.setInt(1,id);
-            int deletedRecords = pstmt.executeUpdate(deleteById);
+            int deletedRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -93,15 +93,15 @@ public class DeliveryRepository {
         }
     }
 
-    public static void saveNewLogin(Delivery delivery) {
-        String newLogin = "INSERT INTO Login VALUES(null,?,?)";
+    public static void saveNewDelivery(Delivery delivery) {
+        String newDelivery = "INSERT INTO Delivery VALUES(null,?,?)";
         try {
             Connection connection = DBUtil.newConnection();
-            PreparedStatement pstmt = connection.prepareStatement(newLogin);
+            PreparedStatement pstmt = connection.prepareStatement(newDelivery);
             pstmt.setString(1,delivery.getName());
             pstmt.setInt(2,delivery.getDeliveryCost());
 
-            int newRecords = pstmt.executeUpdate(newLogin);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -109,8 +109,8 @@ public class DeliveryRepository {
         }
     }
 
-    public static void updateLoginById(int id,Delivery delivery) {
-        String updateDelivery = "UPDATE Login SET name=?,password=? where deliveryId=?";
+    public static void updateDeliveryById(int id,Delivery delivery) {
+        String updateDelivery = "UPDATE Delivery SET name=?,deliveryCost=? where deliveryId=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateDelivery);
@@ -119,12 +119,32 @@ public class DeliveryRepository {
             pstmt.setInt(2,delivery.getDeliveryCost());
             pstmt.setInt(3,id);
 
-            int newRecords = pstmt.executeUpdate(updateDelivery);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static int getLastDeliveryId(){
+        int deliveryId = 0 ;
+        String lastDeliveryId = "SELECT MAX(deliveryId) FROM delivery";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(lastDeliveryId);
+            ResultSet rs = pstmt.executeQuery(lastDeliveryId);
+            while(rs.next()) {
+                deliveryId = rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return deliveryId;
     }
 
 }

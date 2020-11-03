@@ -65,9 +65,8 @@ public class TestAddressRepository {
     @Test()
     @DisplayName("UpdateAddressById")
     public void checkUpdateAddressById(){
-        Address address  = AddressRepository.findById(2);
         AddressRepository.updateAddressById(2,address3);
-        address = AddressRepository.findById(2);
+        Address address = AddressRepository.findById(2);
         Assertions.assertEquals(address3.toString(),address.toString());
     }
 

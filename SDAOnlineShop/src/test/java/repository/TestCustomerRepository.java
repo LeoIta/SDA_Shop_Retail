@@ -56,9 +56,8 @@ import java.util.List;
     @Test
     @DisplayName("UpdateCustomerById")
     public void checkUpdateCustomerById(){
-        List<Customer> customerList = CustomerRepository.findById(2);
         CustomerRepository.updateCustomerById(2,customer3);
-        customerList = CustomerRepository.findById(2);
+        List<Customer> customerList = CustomerRepository.findById(2);
         Assertions.assertEquals(customer3.toString(),customerList.get(0).toString());
     }
 

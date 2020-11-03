@@ -57,7 +57,7 @@ public class Menu {
             System.out.println("3) Enter your postal Code : ");
             postalCode = scan.nextLine();
 
-            System.out.println("4) Enter your postal Code : ");
+            System.out.println("4) Enter your Street and house number ex:  '15 longStreet' : ");
             street = scan.nextLine();
 
             System.out.println(" Create a username and a password for your account ");
@@ -99,11 +99,12 @@ public class Menu {
 
                 System.out.println(" there is no user with this username and password : please retype your username and password");
                 System.out.println(" Enter: your username: ");
-                scan.nextLine();
+                //scan.nextLine();
                 userName = scan.nextLine();
                 System.out.println("Enter your password");
-                scan.nextLine();
+                //scan.nextLine();
                 password = scan.nextLine();
+                logins = LoginRepository.findAccountId(userName, password);
 
             }
 
@@ -130,7 +131,7 @@ public class Menu {
     }
 
     public static void displayAvailableItem (List<Product> productList){
-        System.out.println("Choose the Item you wish to buy \n Choice(*)    Item Type             | Description        | Price             |In Stock ");
+        System.out.println("Choose the Item you wish to buy: ");
         int totalProduct = productList.size();
 
         for (int i=0; i<totalProduct ; i++){
@@ -140,7 +141,7 @@ public class Menu {
             int price = productList.get(i).getPrice();
             int stock = StorageRepository.getQtyByCode( productList.get(i).getProductCode());
 
-            System.out.println((i+1)+") Type:  "+type + " Color  " + color + " Size:  " + size + " Price  " + price + " Qty in Stock : " + stock);
+            System.out.println("\t"+(i+1)+") Type: "+type + "  \t\t\t Color: " + color + "  \t\tSize: " + size + "  \t\t\t Price: " + price + "\t\tAvailable Qty:  " + stock);
 
         }
     }

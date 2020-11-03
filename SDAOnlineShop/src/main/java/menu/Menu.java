@@ -33,6 +33,7 @@ public class Menu {
 
             System.out.println(" In oder to register please provide us with the following information : first Name  , Last Name, email , telephone and Address");
             System.out.println("1) enter your firstname : ");
+            scan.nextLine();
             firstName = scan.nextLine();
 
             System.out.println("2) Enter your last name : ");
@@ -71,7 +72,7 @@ public class Menu {
             Login login = new Login(userName, password); // add a function to check unique username.
             LoginRepository.saveNewLogin(login);
 
-            Address address = new Address(country,city,postalCode); // street to add
+            Address address = new Address(country,city,postalCode,street); // street to add
             AddressRepository.saveNewAddress(address);
 
             int accountId = LoginRepository.getLastLoginId();

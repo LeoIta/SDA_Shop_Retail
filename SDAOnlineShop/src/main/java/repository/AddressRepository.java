@@ -12,7 +12,7 @@ public class AddressRepository {
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectAll);
-            ResultSet rs = pstmt.executeQuery(selectAll);
+            ResultSet rs = pstmt.executeQuery();
 
             while(rs.next()) {
 
@@ -42,7 +42,7 @@ public class AddressRepository {
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(lastAddressId);
-            ResultSet rs = pstmt.executeQuery(lastAddressId);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
                 addressId = rs.getInt(1);
             }
@@ -62,14 +62,15 @@ public class AddressRepository {
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(getLastAddress);
-            ResultSet rs = pstmt.executeQuery(getLastAddress);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
 
                 int addressId = rs.getInt(1);
                 String country = rs.getString(2);
                 String city = rs.getString(3);
                 String postalCode = rs.getString(4);
-                address = new Address(addressId,country, city, postalCode);
+                String street = rs.getString(5);
+                address = new Address(addressId,country, city, postalCode,street);
 
             }
             rs.close();

@@ -161,7 +161,7 @@ public class LoginRepository {
             pstmt.setString(1,login.getUserName());
             pstmt.setString(2,login.getPassword());
 
-            int newRecords = pstmt.executeUpdate(newLogin);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {

@@ -10,10 +10,11 @@ public class Address {
 
     }
 
-    public Address( String country, String city, String postalCode) {
+    public Address( String country, String city, String postalCode, String street) {
         this.country = country;
         this.city = city;
         this.postalCode = postalCode;
+        this.street = street;
     }
 
     public Address(int addressID, String country, String city, String postalCode, String street) {
@@ -24,12 +25,6 @@ public class Address {
         this.street = street;
     }
 
-    public Address(int addressId, String country, String city, String postalCode) {
-        this.addressID = addressId;
-        this.country = country;
-        this.city = city;
-        this.postalCode = postalCode;
-    }
 
     public String getStreet() {
         return this.street;

@@ -43,5 +43,11 @@ public class Login {
         this.accountID = accountID;
     }
 
-
+    @Override
+    public String toString() {
+        return "Login{" +
+                "userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

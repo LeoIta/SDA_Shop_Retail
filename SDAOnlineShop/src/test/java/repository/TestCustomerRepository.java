@@ -29,6 +29,12 @@ import java.util.List;
         Assertions.assertEquals(customerListTest.get(1).toString(),customerList.get(1).toString());
     }
 
+    @Test()
+    @DisplayName("getLastAddedCustomer")
+    public void checkGetLastAddedAddress(){
+        Customer customer = CustomerRepository.getLastAddedCustomer();
+        Assertions.assertEquals(customer3.toString(),customer.toString());
+    }
     @Test
     @DisplayName("FindById")
     public void checkFindById(){
@@ -56,19 +62,22 @@ import java.util.List;
         Assertions.assertEquals(customer3.toString(),customerList.get(0).toString());
     }
 
+        @Test()
+        @DisplayName("GetLastCustomerId")
+        public void checkGetLastCustomerId(){
+            assert CustomerRepository.getLastCustomerId()==3;
+        }
+
     @Test
     @DisplayName("DeleteCustomerById")
     public void checkDeleteCustomerById(){
         List<Customer> customerList = CustomerRepository.findAll();
         int size = customerList.size();
-        int lastId = customerList.get(size-1).getCustomerId();
-        System.out.println(size);
+        int lastId = CustomerRepository.getLastCustomerId();
         CustomerRepository.deleteCustomerById(lastId);
-        List<Customer> customerList1 = CustomerRepository.findAll();
-        assert size - customerList1.size() == 1;
-        Assertions.assertEquals(customer2.toString(),customerList1.get(customerList1.size()-1).toString());
+        customerList = CustomerRepository.findAll();
+        assert size - customerList.size() == 1;
+        Assertions.assertEquals(customer2.toString(),customerList.get(customerList.size()-1).toString());
     }
-
-
 
 }

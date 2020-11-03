@@ -72,4 +72,15 @@ public class Product {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "type='" + type + '\'' +
+                ", color='" + color + '\'' +
+                ", size='" + size + '\'' +
+                ", productCode='" + productCode + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

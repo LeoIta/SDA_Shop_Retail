@@ -28,4 +28,12 @@ public class Storage {
     public void setAvailable_quantity(int available_quantity) {
         this.available_quantity = available_quantity;
     }
+
+    @Override
+    public String toString() {
+        return "Storage{" +
+                "productCode='" + productCode + '\'' +
+                ", available_quantity=" + available_quantity +
+                '}';
+    }
 }

@@ -42,4 +42,12 @@ public class Delivery {
     public void setDeliveryCost(int deliveryCost) {
         this.deliveryCost = deliveryCost;
     }
+
+    @Override
+    public String toString() {
+        return "Delivery{" +
+                "name='" + name + '\'' +
+                ", deliveryCost=" + deliveryCost +
+                '}';
+    }
 }

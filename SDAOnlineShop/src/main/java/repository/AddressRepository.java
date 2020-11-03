@@ -82,8 +82,8 @@ public class AddressRepository {
         return address;
     }
 
-    public static List<Address> findById(int id) {
-        List<Address> addressList = new ArrayList<Address>();
+    public static Address findById(int id) {
+        Address address = new Address();
         String selectById = "SELECT * FROM address where addressId=?";
 
         try {
@@ -99,8 +99,8 @@ public class AddressRepository {
                 String postalCode = rs.getString(4);
                 String street = rs.getString(5);
 
-                Address address = new Address(addressId,country, city, postalCode,street);
-                addressList.add(address);
+                address  = new Address(addressId,country, city, postalCode,street);
+
             }
             rs.close();
 //            pstmt.close();
@@ -108,7 +108,7 @@ public class AddressRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return addressList;
+        return address;
     }
 
     public static void deleteAddressById(int id) {

@@ -157,7 +157,7 @@ public class Menu {
 
     public static int displayBill(List<Product> productList){
 
-        System.out.println("_________________________________________________________________________________________________________________");
+        System.out.println("_______________________________________________________________________");
         int nbOfItem = productList.size();
         int amount =0;
 
@@ -167,12 +167,22 @@ public class Menu {
             String size = productList.get(i).getSize();
             int price = productList.get(i).getPrice();
             amount += price;
-            System.out.println((i+1)+") Type:  "+type + " Color  " + color + " Size:  " + size + " Price  " + price);
+            System.out.println((i+1)+") Type: "+type + "\t Color: " + color + "\t Size: " + size + "\t Price: " + price);
         }
-        System.out.println("_________________________________________________________________________________________________________________");
+        System.out.println("_______________________________________________________________________");
+
         return amount;
     }
 
+    public static int displayBillWithDelivery(List<Product> productList, Delivery delivery, int addressId){
+        int amount = displayBill(productList)+delivery.getDeliveryCost();
+        System.out.println((productList.size()+1)+") Delivery: Yes    \tCourier:  " + delivery.getName() + "\t Price: "+delivery.getDeliveryCost() );
+        Address address = AddressRepository.findById( addressId);
+        System.out.println(" Address of delivery : "+address.getStreet()+","+address.getPostalCode()+" "+address.getStreet()+","+address.getCountry()+".");
+        System.out.println("_______________________________________________________________________");
+        System.out.println("Total to pay : ______________________________________________________ "+amount);
+        return amount;
+    }
 
 
     public static void main(String[] args) {
@@ -260,7 +270,6 @@ public class Menu {
             int orderId = OrderRepository.getLastOrderId() +1;
 
             // if the customer chose delivery we display delivery cpy and price
-            System.out.println(" LeoMi Shop Bill : ");
             if ( custChoice == 1){
                 List<Delivery> deliveryList = DeliveryRepository.findAll();
                 int nbOfDeliveryCpy = deliveryList.size();
@@ -273,51 +282,47 @@ public class Menu {
                 Delivery cstDeliveryMethod = deliveryList.get(chosenDelivery-1);
                 int deliveryId = cstDeliveryMethod.getDeliveryId();
 
-                //OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), deliveryId, shoppingCart.get(0).getProductID()));
-                // and for each item both we save a new order row in the the order table with same order id and same customerId
+                int addressId;
+
+                if (userType == 3){
+                    System.out.println( " You are shopping as guest in order to get delivery provide us with your address ");
+                    System.out.println("1) Enter your Country: ");
+                    String country = scan.nextLine();
+
+                    System.out.println("2) Enter your City: ");
+                    String city    = scan.nextLine();
+
+                    System.out.println("3) Enter your postal Code : ");
+                    String postalCode = scan.nextLine();
+
+                    System.out.println("4) Enter your Street and house number ex:  '15 longStreet' : ");
+                    String street = scan.nextLine();
+                    Address address = new Address( country, city, postalCode, street);
+                    AddressRepository.saveNewAddress( address );
+
+                    addressId = address.getAddressID();
+                }else { addressId = customer.getAddressId();}
+
+
                 for ( int i =0;  i < nbOfItemBought ; i++){
                     OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), deliveryId, shoppingCart.get(i).getProductID()));
                 }
-
-
                 int deliveryCost = cstDeliveryMethod.getDeliveryCost();
+                System.out.println(" Thank you for shopping with LEOMI SHOP (^_^) :\n BILL No: "+orderId+ " to our dear: "+customer.getFirstName());
 
-                amountToPay = displayBill(shoppingCart) + deliveryCost;
-                System.out.println( " **** delivery : " + cstDeliveryMethod.getName() + " Price:  "+deliveryCost);
-                System.out.println("_________________________________________________________________________________________________________________");
+                amountToPay = displayBillWithDelivery(shoppingCart,cstDeliveryMethod,addressId) ;
             }else{
 
-                //OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), shoppingCart.get(0).getProductID()));
-                // and for each item both we save a new order row in the the order table with same order id and same customerId
+                System.out.println(" Thank you for shopping with LEOMI SHOP (^_^) :\n BILL No: "+orderId+ " to our dear: "+customer.getFirstName());
                 for ( int i =0;  i < nbOfItemBought ; i++){
                     OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), shoppingCart.get(i).getProductID()));
                 }
                 amountToPay = displayBill(shoppingCart);
+                System.out.println(" Total to pay : ______________________________________________________ "+amountToPay);
             }
-
-            System.out.println(" Total to pay : ______________________________________________________ "+amountToPay);
-
 
 
         }
-
-
-
-
-
-
-        /*System.out.println(CustomerRepository.getLastCustomerId());
-
-        System.out.println(CustomerRepository.getLastAddedCustomer().toString());
-
-        List<Customer> customers = CustomerRepository.findAll();
-        System.out.println(customers.get(1).getLastName());
-
-        for ( Customer cust : customers){
-            System.out.println(cust.toString());
-        }*/
-
-
 
 
     }

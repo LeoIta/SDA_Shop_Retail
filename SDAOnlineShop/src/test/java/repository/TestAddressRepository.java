@@ -37,8 +37,8 @@ public class TestAddressRepository {
     @Test
     @DisplayName("FindById")
     public void checkFindById(){
-        List<Address> addressList = AddressRepository.findById(2);
-        Assertions.assertEquals(address2.toString(),addressList.get(0).toString());
+        Address address = AddressRepository.findById(2);
+        Assertions.assertEquals(address2.toString(),address.toString());
         }
 
     @Test
@@ -55,10 +55,10 @@ public class TestAddressRepository {
     @Test
     @DisplayName("UpdateAddressById")
     public void checkUpdateAddressById(){
-        List<Address> addressList = AddressRepository.findById(2);
+        Address address  = AddressRepository.findById(2);
         AddressRepository.updateAddressById(2,address3);
-        addressList = AddressRepository.findById(2);
-        Assertions.assertEquals(address3.toString(),addressList.get(0).toString());
+        address = AddressRepository.findById(2);
+        Assertions.assertEquals(address3.toString(),address.toString());
     }
 
     @Test

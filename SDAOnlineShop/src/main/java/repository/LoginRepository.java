@@ -34,15 +34,15 @@ public class LoginRepository {
         return loginList;
     }
 
-    public static List<Login> findById(int id) {
-        List<Login> loginList = new ArrayList<Login>();
+    public static Login findById(int id) {
+        Login login = null;
         String selectById = "SELECT * FROM login where accountId=?";
 
         {try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectById);
             //pstmt.setString(1,login.getAccountId());
-            pstmt.setString(1,""+id+"");
+            pstmt.setInt(1,id);
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
 
@@ -50,8 +50,7 @@ public class LoginRepository {
                 String userName = rs.getString(2);
                 String password = rs.getString(3);
 
-                Login login = new Login(accountId, userName, password);
-                loginList.add(login);
+                login = new Login(accountId, userName, password);
             }
             rs.close();
             pstmt.close();
@@ -59,7 +58,7 @@ public class LoginRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }}
-        return loginList;
+        return login;
     }
 
     //// added
@@ -108,8 +107,8 @@ public class LoginRepository {
         return login;
     }
 
-    public static List<Login> findAccountId(String userName, String password) {
-        List<Login> loginList = new ArrayList<Login>();
+    public static Login findAccountId(String userName, String password) {
+        Login login =null;
         String selectById = "SELECT accountId FROM login where userName=? and password=?";
 
         try {
@@ -123,8 +122,8 @@ public class LoginRepository {
 
                 int accountId = rs.getInt(1);
 
-                Login login = new Login(accountId, userName, password);
-                loginList.add(login);
+                login = new Login(accountId, userName, password);
+
            }
 
             rs.close();
@@ -133,7 +132,7 @@ public class LoginRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return loginList;
+        return login;
     }
 
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StorageRepository {
+
     public static List<Storage> findAll() {
         List<Storage> storageList = new ArrayList<Storage>();
         String selectAll = "SELECT * FROM storage";
@@ -59,7 +60,7 @@ public class StorageRepository {
     }
 
     public static Storage findByCode(String code) {
-        Storage storage = new Storage();
+        Storage storage = null;
         String selectByCode = "SELECT * FROM storage where productCode=?";
 
         try {

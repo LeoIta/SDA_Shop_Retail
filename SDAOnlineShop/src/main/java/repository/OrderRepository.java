@@ -117,7 +117,7 @@ public class OrderRepository {
         }
     }
 
-    public static void updateProductById(int productId, Order order) {
+    public static void updateProductByOrderId(int productId, Order order) {
         String updateQtyById = "UPDATE `order` SET productId=? where orderId=?";
         try {
             Connection connection = DBUtil.newConnection();
@@ -133,7 +133,8 @@ public class OrderRepository {
             throwables.printStackTrace();
         }
     }
-    public static void updateDeliveryById(int deliveryId, Order order) { //We add this when the customer choose delivery
+
+    public static void updateDeliveryByOrderId(int deliveryId, Order order) { //We add this when the customer choose delivery
         String updateQtyById = "UPDATE `order` SET deliveryId=? where orderId=?";
         try {
             Connection connection = DBUtil.newConnection();

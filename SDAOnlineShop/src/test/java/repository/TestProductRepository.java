@@ -1,88 +1,90 @@
 package repository;
+
 import model.Product;
 import org.junit.jupiter.api.*;
-import java.util.ArrayList;
 import java.util.List;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
     public class TestProductRepository {
 
-        public List<Product> productListTest = new ArrayList<Product>();
-        public Product product1, product2, product3, product4,product5,product13,product14,product15,product16,product17;
+        public Product product1, product2, product3, product4,product5,product6, product7, product8,product9;
 
         @BeforeEach
         public void start() {
-            product1 = new Product("JEANS","RED","XS","0JNS00XS00RD",40);
-            product2 = new Product("SHIRT","BLUE","XL","0SHT00XL00BE",25);
-            productListTest.add(product1);
-            productListTest.add(product2);
-            product3 = new Product("T-SHIRT","GREEN","XS","0TST00XS00GN",10);
-            product4 = new Product("SHIRT","GREEN","XL","0TST00XL00GN",10);
-            product5 = new Product("T-SHIRT","GREEN","XS","0TST00XS00GN",10);
+            product1 = new Product(1,"JEANS","RED","XS","0JNS00XS00RD",40);
+            product2 = new Product(2,"SHIRT","BLUE","XL","0SHT00XL00BE",25);
+            product3 = new Product(3,"T-SHIRT","GREEN","XS","0TST00XS00GN",15);
+            product4 = new Product(4,"SKIRT","BLACK","XS","0SKT00XS00BK",40);
+            product5 = new Product(5,"TROUSERS","YELLOW","XS","0TRS00XS00YW",45);
+            product6 = new Product(6,"JACKET","WHITE","S","0JKT00SS00WE",60);
+            product7 = new Product(7,"COAT","RED","XL","0CAT00XL00RD",100);
+            product8 = new Product(8,"T-SHIRT","GREEN","XS","0TST00XS00GN",15);
+            product9 = new Product(9,"T-SHIRT","BLACK","XS","0TST00XS00BK",40);
 
-            product13=new Product("T-SHIRT","GREEN","XS","0TST00XS00GN",15);
-            product14=new Product("SKIRT","BLACK","XS","0SKT00XS00BK",40);
-            product15=new Product("TROUSERS","YELLOW","XS","0TRS00XS00YW",45);
-            product16=new Product("JACKET","WHITE","S","0JKT00SS00WE",60);
-            product17=new Product("COAT","RED","XL","0CAT00XL00RD",100);
         }
 
         @Test()
+        @Order(1)
         @DisplayName("FindAll")
         public void checkFindAll(){
             List<Product> productList = ProductRepository.findAll();
-
+            assert productList.size()==7;
             Assertions.assertEquals(product1.toString(),productList.get(0).toString());
-            Assertions.assertEquals(product4.toString(),productList.get(1).toString());
-            Assertions.assertEquals(product13.toString(),productList.get(2).toString());
-            Assertions.assertEquals(product14.toString(),productList.get(3).toString());
-            Assertions.assertEquals(product15.toString(),productList.get(4).toString());
-            Assertions.assertEquals(product16.toString(),productList.get(5).toString());
-            Assertions.assertEquals(product17.toString(),productList.get(6).toString());
+            Assertions.assertEquals(product2.toString(),productList.get(1).toString());
+            Assertions.assertEquals(product3.toString(),productList.get(2).toString());
+            Assertions.assertEquals(product4.toString(),productList.get(3).toString());
+            Assertions.assertEquals(product5.toString(),productList.get(4).toString());
+            Assertions.assertEquals(product6.toString(),productList.get(5).toString());
+            Assertions.assertEquals(product7.toString(),productList.get(6).toString());
 
         }
 
         @Test()
+        @Order(2)
         @DisplayName("SaveNew")
         public void checkSaveNewProduct(){
+            int size = ProductRepository.findAll().size();
+            ProductRepository.saveNewProduct(product8);
             List<Product> productList = ProductRepository.findAll();
-            productList.size();
-            ProductRepository.saveNewProduct(product2);
-            List<Product> productList1 = ProductRepository.findAll();
-            assert productList1.size() - productList.size() == 1;
-            Assertions.assertEquals(product2.toString(),productList1.get(6).toString());
+            assert productList.size() - size == 1;
+            Assertions.assertEquals(product8.toString(),productList.get(7).toString());
         }
 
         @Test()
+        @Order(3)
         @DisplayName("GetLastProductId")
         public void checkGetLastProductId(){
-            assert ProductRepository.getLastProductId()==7;
+            assert ProductRepository.getLastProductId()==8;
         }
 
         @Test()
+        @Order(4)
         @DisplayName("FindById")
         public void checkFindById(){
-            List<Product> product = ProductRepository.findById(1);
-            Assertions.assertEquals(product1.toString(),product.get(0).toString());
+            Product product = ProductRepository.findById(1);
+            Assertions.assertEquals(product1.toString(),product.toString());
         }
 
         @Test()
+        @Order(5)
         @DisplayName("UpdateProductById")
         public void checkUpdateProductById(){
-            ProductRepository.updateProductById(2,product4);
-            List<Product> product = ProductRepository.findById(2);
-            Assertions.assertEquals(product4.toString(),product.get(0).toString());
+            ProductRepository.updateProductById(8,product9);
+            Product product = ProductRepository.findById(8);
+            Assertions.assertEquals(product9.toString(),product.toString());
         }
 
         @Test()
+        @Order(6)
         @DisplayName("DeleteProductById")
         public void checkDeleteProductById(){
-            List<Product> productList = ProductRepository.findAll();
-            int size = productList.size();
+
+            int size = ProductRepository.findAll().size();
             int lastId = ProductRepository.getLastProductId();
             ProductRepository.deleteProductById(lastId);
-            productList = ProductRepository.findAll();
+            List<Product> productList = ProductRepository.findAll();
             assert size - productList.size() == 1;
-            Assertions.assertEquals(product16.toString(),productList.get(productList.size()-1).toString());
+            Assertions.assertEquals(product7.toString(),productList.get(productList.size()-1).toString());
         }
 
 

@@ -1,36 +1,33 @@
 package repository;
+
 import model.Login;
 import org.junit.jupiter.api.*;
-import java.util.ArrayList;
 import java.util.List;
 
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestLoginRepository {
 
-        public List<Login> loginListTest = new ArrayList<Login>();
-        public Login login1;
-        public Login login2;
-        public Login login3;
+        public Login login1, login2, login3;
 
         @BeforeEach
         public void start() {
             login1 = new Login("Leo","Leo");
             login2 = new Login("Mikael","Mikael");
-            loginListTest.add(login1);
-            loginListTest.add(login2);
             login3 = new Login("Joel","Joel");
         }
 
         @Test
+        @Order(1)
         @DisplayName("FindAll")
         public void checkFindAll(){
             List<Login> loginList = LoginRepository.findAll();
 
-            Assertions.assertEquals(loginListTest.get(0).toString(),loginList.get(0).toString());
-            Assertions.assertEquals(loginListTest.get(1).toString(),loginList.get(1).toString());
+            Assertions.assertEquals(login1.toString(),loginList.get(0).toString());
+            Assertions.assertEquals(login2.toString(),loginList.get(1).toString());
         }
 
         @Test()
+        @Order(2)
         @DisplayName("getLastAddedLogin")
         public void checkGetLastAddedLogin(){
             Login login = LoginRepository.getLastAddedLogin();
@@ -38,53 +35,57 @@ public class TestLoginRepository {
         }
 
         @Test
+        @Order(3)
         @DisplayName("FindById")
         public void checkFindById(){
-            List<Login> loginList = LoginRepository.findById(1);
-            Assertions.assertEquals(login1.toString(),loginList.get(0).toString());
+            Login login = LoginRepository.findById(1);
+            Assertions.assertEquals(login1.toString(),login.toString());
         }
 
         @Test
+        @Order(4)
         @DisplayName("SaveNew")
         public void checkSaveNewLogin(){
-            List<Login> loginList = LoginRepository.findAll();
-            loginList.size();
+            int size = LoginRepository.findAll().size();
             LoginRepository.saveNewLogin(login3);
-            List<Login> loginList1 = LoginRepository.findAll();
-            assert loginList1.size() - loginList.size() == 1;
-            Assertions.assertEquals(login3.toString(),loginList1.get(2).toString());
-        }
-
-        @Test
-        @DisplayName("UpdateLoginById")
-        public void checkUpdateLoginById(){
-            LoginRepository.updateLoginById(2,login3);
-            List<Login> loginList = LoginRepository.findById(2);
-            Assertions.assertEquals(login3.toString(),loginList.get(0).toString());
+            List<Login> loginList = LoginRepository.findAll();
+            assert loginList.size() - size == 1;
+            Assertions.assertEquals(login3.toString(),loginList.get(2).toString());
         }
 
         @Test()
+        @Order(5)
         @DisplayName("GetLastLoginId")
         public void checkGetLastLoginId(){
-            assert LoginRepository.getLastLoginId()==2;
+            assert LoginRepository.getLastLoginId()==3;
         }
 
         @Test
+        @Order(6)
         @DisplayName("DeleteLoginById")
         public void checkDeleteLoginById(){
-            List<Login> loginList = LoginRepository.findAll();
-            int size = loginList.size();
+            int size = LoginRepository.findAll().size();
             int lastId = LoginRepository.getLastLoginId();
             LoginRepository.deleteLoginById(lastId);
-            loginList = LoginRepository.findAll();
+            List<Login> loginList = LoginRepository.findAll();
             assert size - loginList.size() == 1;
             Assertions.assertEquals(login2.toString(),loginList.get(loginList.size()-1).toString());
         }
 
         @Test
+        @Order(7)
+        @DisplayName("UpdateLoginById")
+        public void checkUpdateLoginById(){
+            LoginRepository.updateLoginById(2,login3);
+            Login login = LoginRepository.findById(2);
+            Assertions.assertEquals(login3.toString(),login.toString());
+        }
+
+        @Test
+        @Order(8)
         @DisplayName("FindAccountId")
         public void checkFindAccountId(){
-        Assertions.assertEquals(login1.toString(),LoginRepository.findAccountId("Leo","Leo").get(0).toString());
+        Assertions.assertEquals(login1.toString(),LoginRepository.findAccountId("Leo","Leo").toString());
         }
 
 

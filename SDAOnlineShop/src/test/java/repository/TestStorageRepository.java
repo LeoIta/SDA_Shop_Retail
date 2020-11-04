@@ -1,31 +1,29 @@
 package repository;
-import model.Address;
+
 import model.Storage;
 import org.junit.jupiter.api.*;
-import java.util.ArrayList;
 import java.util.List;
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestStorageRepository {
-    public List<Storage> storageListTest = new ArrayList<Storage>();
-    public Storage storage1;
-    public Storage storage2;
-    public Storage storage3;
+
+    public Storage storage1, storage2, storage3;
 
     @BeforeEach
     public void start() {
         storage1 = new Storage("0CAT00LL00BE",1);
         storage2 = new Storage("0CAT00LL00BK",9);
-        storageListTest.add(storage1);
-        storageListTest.add(storage2);
         storage3 = new Storage("0CAT00LL00GN",1);
     }
 
     @Test()
+    @Order(1)
     @DisplayName("FindAll")
     public void checkFindAll(){
         List<Storage> storageList = StorageRepository.findAll();
-
-        Assertions.assertEquals(storageListTest.get(0).toString(),storageList.get(0).toString());
-        Assertions.assertEquals(storageListTest.get(1).toString(),storageList.get(1).toString());
+        Assertions.assertTrue(storageList.size() == 210);
+        Assertions.assertEquals(storage1.toString(),storageList.get(0).toString());
+        Assertions.assertEquals(storage2.toString(),storageList.get(1).toString());
         (new Storage("0JNS00MM00RD",3)).toString().equals(storageList.get(2).toString());
         (new Storage("0JNS00LL00RD",9)).toString().equals(storageList.get(3).toString());
         (new Storage("0JNS00XL00RD",0)).toString().equals(storageList.get(4).toString());
@@ -35,6 +33,7 @@ public class TestStorageRepository {
     }
 
     @Test()
+    @Order(2)
     @DisplayName("findByCode")
     public void checkFindByCode(){
         Storage storage = StorageRepository.findByCode("0JNS00MM00GN");
@@ -42,28 +41,30 @@ public class TestStorageRepository {
     }
 
     @Test()
+    @Order(3)
     @DisplayName("getQtyByCode")
     public void checkGetQtyByCode(){
-        assert StorageRepository.getQtyByCode("0JNS00SS00GN")==5;
+        assert StorageRepository.getQtyByCode("0JNS00MM00GN")==11;
     }
 
     @Test()
+    @Order(4)
     @DisplayName("UpdateStorageByCode")
     public void checkUpdateStorageByCode(){
-        StorageRepository.updateStorageByCode("0JNS00XS00GN",2);
-        assert StorageRepository.getQtyByCode("0JNS00XS00GN")==8;
+        StorageRepository.updateStorageByCode("0JNS00MM00GN",3);
+        assert StorageRepository.getQtyByCode("0JNS00MM00GN")==8;
     }
 
     @Test()
-    @DisplayName("DeleteStorageById")
-    public void checkDeleteStorageById(){
+    @Order(5)
+    @DisplayName("DeleteStorageByCode")
+    public void checkDeleteStorageByCode(){
         List<Storage> storageList = StorageRepository.findAll();
         int size = storageList.size();
         StorageRepository.deleteStorageByCode("0CAT00MM00BE");
         storageList = StorageRepository.findAll();
         assert size - storageList.size() == 1;
-        Storage storageDeleted = StorageRepository.findByCode("0CAT00MM00BE");
-       Assertions.assertTrue(storageDeleted.getProductCode()==null && storageDeleted.getAvailable_quantity()==0);
+        Assertions.assertNull(StorageRepository.findByCode("0CAT00MM00BE"));
     }
 
 }

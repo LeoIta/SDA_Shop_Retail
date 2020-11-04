@@ -83,7 +83,7 @@ public class AddressRepository {
     }
 
     public static Address findById(int id) {
-        Address address = new Address();
+        Address address = null;
         String selectById = "SELECT * FROM address where addressId=?";
 
         try {

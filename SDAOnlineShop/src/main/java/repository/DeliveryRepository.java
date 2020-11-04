@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeliveryRepository {
+
     public static List<Delivery> findAll() {
         List<Delivery> deliveryList = new ArrayList<Delivery>();
         String selectAll = "SELECT * FROM delivery";
@@ -55,7 +56,7 @@ public class DeliveryRepository {
     }
 
     public static Delivery findById(int id) {
-        Delivery delivery = new Delivery();
+        Delivery delivery = null;
         String selectById = "SELECT * FROM delivery where deliveryId=?";
 
         try {

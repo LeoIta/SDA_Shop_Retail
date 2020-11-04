@@ -42,8 +42,8 @@ public class ProductRepository {
         return productList;
     }
 
-    public static List<Product> findById(int id) {
-        List<Product> productList = new ArrayList<Product>();
+    public static Product findById(int id) {
+        Product product = null;
         String selectById = "SELECT * FROM product where productId=?";
 
         try {
@@ -61,8 +61,7 @@ public class ProductRepository {
                 String productCode = rs.getString(5);
                 int price = rs.getInt(6);
 
-                Product product = new Product(productId, type, color, size, productCode, price);
-                productList.add(product);
+                product = new Product(productId, type, color, size, productCode, price);
             }
             rs.close();
             pstmt.close();
@@ -70,7 +69,7 @@ public class ProductRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return productList;
+        return product;
     }
 
     public static void deleteProductById(int id) {

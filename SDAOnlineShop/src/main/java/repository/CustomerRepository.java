@@ -15,7 +15,6 @@ public class CustomerRepository {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(selectAll);
             ResultSet rs = pstmt.executeQuery();
-            System.out.println(" we are connected to db");
 
             while(rs.next()) {
 
@@ -40,8 +39,8 @@ public class CustomerRepository {
         return customerList;
     }
 
-    public static List<Customer> findById(int id) {
-        List<Customer> customerList = new ArrayList<Customer>();
+    public static Customer findById(int id) {
+        Customer customer = null;
         String selectById = "SELECT * FROM Customer where customerId=?";
 
         try {
@@ -59,8 +58,7 @@ public class CustomerRepository {
                 int addressID = rs.getInt(6);
                 int accountID = rs.getInt(7);
 
-                Customer customer = new Customer(firstName, lastName, mail, telephone, addressID,accountID);
-                customerList.add(customer);
+                customer = new Customer(firstName, lastName, mail, telephone, addressID,accountID);
             }
             rs.close();
             pstmt.close();
@@ -68,7 +66,7 @@ public class CustomerRepository {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return customerList;
+        return customer;
     }
 
     public static void deleteCustomerById(int id) {
@@ -114,7 +112,7 @@ public class CustomerRepository {
             pstmt.setString(2,customer.getLastName());
             pstmt.setString(3,customer.getMail());
             pstmt.setString(4,customer.getTelephone());
-            pstmt.setInt(5,customer.getAccountId());
+            pstmt.setInt(5,Id);
 
             int newRecords = pstmt.executeUpdate();
             pstmt.close();

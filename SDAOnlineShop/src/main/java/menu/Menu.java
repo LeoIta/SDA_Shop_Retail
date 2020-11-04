@@ -94,9 +94,9 @@ public class Menu {
             //scan.nextLine();
             password = scan.nextLine();
             System.out.println(password.equals("Mikael")+"    |    "+ userName.equals("Mikael"));
-            List<Login> logins = LoginRepository.findAccountId(userName, password);
+            Login login = LoginRepository.findAccountId(userName, password);
 
-            while ( logins.size() == 0){
+            while ( login != null){
 
                 System.out.println(" there is no user with this username and password : please retype your username and password");
                 System.out.println(" Enter: your username: ");
@@ -105,7 +105,7 @@ public class Menu {
                 System.out.println("Enter your password");
                 //scan.nextLine();
                 password = scan.nextLine();
-                logins = LoginRepository.findAccountId(userName, password);
+                login = LoginRepository.findAccountId(userName, password);
 
             }
 

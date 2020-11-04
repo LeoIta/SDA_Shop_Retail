@@ -83,7 +83,7 @@ public class StorageRepository {
     }
 
     public static void deleteStorageByCode(String code) { // wont be needed
-        String deleteByCode = "DELETE FROM storage where code=?";
+        String deleteByCode = "DELETE FROM storage where productCode=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteByCode);
@@ -114,7 +114,6 @@ public class StorageRepository {
 
     public static void updateStorageByCode(String code, int soldQty) {
         Storage storage = findByCode(code);
-        soldQty = 1;
         int newAvailableQty = storage.getAvailable_quantity() - soldQty;
         String updateStorage = "UPDATE storage SET available_quantity=? where productCode=?";
         try {

@@ -3,6 +3,7 @@ package menu;
 import model.*;
 import repository.*;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,7 +19,7 @@ public class Menu {
     }
 
     public static Customer identifyUser(){
-        System.out.println(" Select how you want to shop : 1) New User ( register and shop) 2) Already have an account (login and shop) 3) Shop as a guest");
+        System.out.println("Select how you want to shop : \n1) New User ( sign in and shop) \n2) Already have an account (login and shop) \n3) Shop as a guest");
 
         Scanner scan = new Scanner(System.in);
         int userType = scan.nextInt();
@@ -65,7 +66,6 @@ public class Menu {
             System.out.println("1) Enter your username: ");
 
             while(invalidAccount){
-            System.out.println("username already in use, please enter another username: ");
             userName = scan.nextLine();
             invalidAccount = LoginRepository.accountInUse(userName);
             System.out.println("2) Enter your password: ");
@@ -73,7 +73,7 @@ public class Menu {
             if(!invalidAccount){
             Login login = new Login(userName, password);
             LoginRepository.saveNewLogin(login);}
-
+            else{System.out.println("username already in use, please enter another username: ");}
             }
 
             Address address = new Address(country,city,postalCode,street);
@@ -83,6 +83,7 @@ public class Menu {
             int addressId = AddressRepository.getLastAddressId();
 
             // we save the new cst in the database to generate his customer id.
+
             CustomerRepository.saveNewCustomer(new Customer(firstName,lastName,email,telephone,addressId,accountId));
 
             // here we want to get the new customer ( latest position ) from the database
@@ -97,7 +98,6 @@ public class Menu {
             System.out.println("Enter your password");
             password = scan.nextLine();
             Login login = LoginRepository.findAccountId(userName, password);
-
             while ( login == null){
 
                 System.out.println(" there is no user with this username and password : please retype your username and password");
@@ -106,7 +106,6 @@ public class Menu {
                 System.out.println("Enter your password");
                 password = scan.nextLine();
                 login = LoginRepository.findAccountId(userName, password);
-
             }
 
             int nbOfAccountId = LoginRepository.findAll().size();
@@ -119,7 +118,6 @@ public class Menu {
         }else {
 
             return new Customer("guest");
-
         }
     }
 
@@ -132,7 +130,7 @@ public class Menu {
     }
 
     public static void displayAvailableItem (List<Product> productList){
-        System.out.println("Choose the Item you wish to buy: ");
+        System.out.println("\n Choose the Item you wish to buy: ");
         int totalProduct = productList.size();
 
         for (int i=0; i<totalProduct ; i++){
@@ -193,9 +191,12 @@ public class Menu {
 
         // WELCOME & SIGN IN or LOGIN :  Welcome and registering user
         welcomeToShopMessage();
+        int numberAccountsBeforeShop = LoginRepository.getLastLoginId();
         Customer customer = identifyUser();
-        // one for user in data base with login  two (2) for guest shopper
-        int userType = customer.getFirstName().equals("guest") ? 1 : 2 ;
+        // one for user in data base with login two (2) for guest shopper
+        int numberAccountsAfterShop = LoginRepository.getLastLoginId();
+        System.out.println(customer.toString());
+        int userType = customer.getFirstName().equals("guest") ? 3 : (numberAccountsAfterShop>numberAccountsBeforeShop ? 1 :2) ;
         // welcome the user with his information ( name and lastname )
         welcomeCustomer(customer, userType);
 

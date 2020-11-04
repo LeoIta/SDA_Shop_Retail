@@ -51,7 +51,7 @@ public class ProductRepository {
             PreparedStatement pstmt = connection.prepareStatement(selectById);
             //pstmt.setString(1,login.getAccountId());
             pstmt.setInt(1,id);
-            ResultSet rs = pstmt.executeQuery(selectById);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) {
 
                 int productId = rs.getInt(1);
@@ -73,13 +73,13 @@ public class ProductRepository {
         return productList;
     }
 
-    public static void deleteLoginById(int id) {
+    public static void deleteProductById(int id) {
         String deleteById = "DELETE FROM product where productId=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(deleteById);
             pstmt.setInt(1,id);
-            int deletedRecords = pstmt.executeUpdate(deleteById);
+            int deletedRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -88,7 +88,7 @@ public class ProductRepository {
     }
 
     public static void saveNewProduct(Product product) {
-        String newProduct = "INSERT INTO Login VALUES(null,?,?,?,?,?)";
+        String newProduct = "INSERT INTO Product VALUES(null,?,?,?,?,?)";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(newProduct);
@@ -98,7 +98,7 @@ public class ProductRepository {
             pstmt.setString(4,product.getProductCode());
             pstmt.setInt(5,product.getPrice());
 
-            int newRecords = pstmt.executeUpdate(newProduct);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
@@ -106,8 +106,8 @@ public class ProductRepository {
         }
     }
 
-    public static void updateLoginById(Product product) {
-        String updateProduct = "UPDATE Login SET color=?,size=?,productCode=?,price=?, where productId=?";
+    public static void updateProductById(int productId,Product product) {
+        String updateProduct = "UPDATE Product SET color=?,size=?,productCode=?,price=? where productId=?";
         try {
             Connection connection = DBUtil.newConnection();
             PreparedStatement pstmt = connection.prepareStatement(updateProduct);
@@ -116,13 +116,33 @@ public class ProductRepository {
             pstmt.setString(2,product.getSize());
             pstmt.setString(3,product.getProductCode());
             pstmt.setInt(4,product.getPrice());
-            pstmt.setInt(5,product.getProductID());
+            pstmt.setInt(5,productId);
 
-            int newRecords = pstmt.executeUpdate(updateProduct);
+            int newRecords = pstmt.executeUpdate();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static int getLastProductId(){
+        int productId = 0 ;
+        String lastProductId = "SELECT MAX(productId) FROM product";
+
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(lastProductId);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+                productId = rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return productId;
     }
 }

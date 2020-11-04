@@ -186,4 +186,30 @@ public class LoginRepository {
         }
     }
 
+    public static boolean accountInUse(String userName) {
+
+        String countId = "select count(*) FROM login where username=?";
+        int records=0;
+        try {
+            Connection connection = DBUtil.newConnection();
+            PreparedStatement pstmt = connection.prepareStatement(countId);
+            //pstmt.setString(1,login.getAccountId());
+            pstmt.setString(1,userName);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+
+            records = rs.getInt(1);
+
+            }
+
+            rs.close();
+            pstmt.close();
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return records!=0;
+    }
+
+
 }

@@ -85,7 +85,14 @@ public class TestLoginRepository {
         @Order(8)
         @DisplayName("FindAccountId")
         public void checkFindAccountId(){
-        Assertions.assertEquals(login1.toString(),LoginRepository.findAccountId("Leo","Leo").toString());
+            Assertions.assertEquals(login1.toString(),LoginRepository.findAccountId("Leo","Leo").toString());
+        }
+
+        @Test
+        @Order(9)
+        @DisplayName("Check if account is already in use")
+        public void checkAccountInUse(){
+            Assertions.assertTrue(LoginRepository.accountInUse("Leo"));
         }
 
 

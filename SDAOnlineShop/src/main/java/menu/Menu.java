@@ -31,21 +31,19 @@ public class Menu {
         if (userType == 1){
             String firstName, lastName, email, telephone, country, city, postalCode, street, userName, password;
 
-            System.out.println(" In oder to register please provide us with the following information : first Name  , Last Name, email , telephone and Address");
-            System.out.println("1) enter your firstname : ");
+            System.out.println(" In oder to register please provide us with the following information : first name , last name, email , telephone and address");
+            System.out.println("1) enter your first name: ");
             scan.nextLine();
             firstName = scan.nextLine();
 
-            System.out.println("2) Enter your last name : ");
+            System.out.println("2) Enter your last name: ");
             lastName = scan.nextLine();
 
-            System.out.println("3) Enter your email : ");
+            System.out.println("3) Enter your email: ");
             email = scan.nextLine();
 
-            System.out.println("4) Enter your telephone  : ");
+            System.out.println("4) Enter your telephone: ");
             telephone = scan.nextLine();
-
-
 
             System.out.println(" Now lets add your delivery information: ");
 
@@ -53,26 +51,32 @@ public class Menu {
             country = scan.nextLine();
 
             System.out.println("2) Enter your City: ");
-            city    = scan.nextLine();
+            city = scan.nextLine();
 
-            System.out.println("3) Enter your postal Code : ");
+            System.out.println("3) Enter your postal Code: ");
             postalCode = scan.nextLine();
 
-            System.out.println("4) Enter your Street and house number ex:  '15 longStreet' : ");
+            System.out.println("4) Enter your Street and house number (ex: '15 longStreet') : ");
             street = scan.nextLine();
 
             System.out.println(" Create a username and a password for your account ");
 
+            boolean invalidAccount=true;
             System.out.println("1) Enter your username: ");
+
+            while(invalidAccount){
+            System.out.println("username already in use, please enter another username: ");
             userName = scan.nextLine();
-
+            invalidAccount = LoginRepository.accountInUse(userName);
             System.out.println("2) Enter your password: ");
-            password    = scan.nextLine();
+            password = scan.nextLine();
+            if(!invalidAccount){
+            Login login = new Login(userName, password);
+            LoginRepository.saveNewLogin(login);}
 
-            Login login = new Login(userName, password); // add a function to check unique username.
-            LoginRepository.saveNewLogin(login);
+            }
 
-            Address address = new Address(country,city,postalCode,street); // street to add
+            Address address = new Address(country,city,postalCode,street);
             AddressRepository.saveNewAddress(address);
 
             int accountId = LoginRepository.getLastLoginId();
@@ -91,19 +95,15 @@ public class Menu {
             scan.nextLine();
             userName = scan.nextLine();
             System.out.println("Enter your password");
-            //scan.nextLine();
             password = scan.nextLine();
-            System.out.println(password.equals("Mikael")+"    |    "+ userName.equals("Mikael"));
             Login login = LoginRepository.findAccountId(userName, password);
 
-            while ( login != null){
+            while ( login == null){
 
                 System.out.println(" there is no user with this username and password : please retype your username and password");
                 System.out.println(" Enter: your username: ");
-                //scan.nextLine();
                 userName = scan.nextLine();
                 System.out.println("Enter your password");
-                //scan.nextLine();
                 password = scan.nextLine();
                 login = LoginRepository.findAccountId(userName, password);
 

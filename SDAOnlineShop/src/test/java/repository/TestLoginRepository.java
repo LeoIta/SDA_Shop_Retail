@@ -7,13 +7,14 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestLoginRepository {
 
-        public Login login1, login2, login3;
+        public Login login1, login2, login3, login4;
 
         @BeforeEach
         public void start() {
             login1 = new Login("Leo","Leo");
             login2 = new Login("Mikael","Mikael");
             login3 = new Login("Joel","Joel");
+            login4 = new Login("guest","guest");
         }
 
         @Test
@@ -31,7 +32,7 @@ public class TestLoginRepository {
         @DisplayName("getLastAddedLogin")
         public void checkGetLastAddedLogin(){
             Login login = LoginRepository.getLastAddedLogin();
-            Assertions.assertEquals(login2.toString(),login.toString());
+            Assertions.assertEquals(login4.toString(),login.toString());
         }
 
         @Test
@@ -50,14 +51,14 @@ public class TestLoginRepository {
             LoginRepository.saveNewLogin(login3);
             List<Login> loginList = LoginRepository.findAll();
             assert loginList.size() - size == 1;
-            Assertions.assertEquals(login3.toString(),loginList.get(2).toString());
+            Assertions.assertEquals(login3.toString(),loginList.get(3).toString());
         }
 
         @Test()
         @Order(5)
         @DisplayName("GetLastLoginId")
         public void checkGetLastLoginId(){
-            assert LoginRepository.getLastLoginId()==3;
+            assert LoginRepository.getLastLoginId()==4;
         }
 
         @Test
@@ -69,7 +70,7 @@ public class TestLoginRepository {
             LoginRepository.deleteLoginById(lastId);
             List<Login> loginList = LoginRepository.findAll();
             assert size - loginList.size() == 1;
-            Assertions.assertEquals(login2.toString(),loginList.get(loginList.size()-1).toString());
+            Assertions.assertEquals(login4.toString(),loginList.get(loginList.size()-1).toString());
         }
 
         @Test

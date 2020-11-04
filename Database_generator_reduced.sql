@@ -285,7 +285,8 @@ values
 insert into login 
 values
 (null,'Leo','Leo'),
-(null,'Mikael','Mikael');
+(null,'Mikael','Mikael'),
+(null,'guest','guest');
 insert into address
 values
 (null,'Estonia','Tallin','10145','Maakri 19/1'),

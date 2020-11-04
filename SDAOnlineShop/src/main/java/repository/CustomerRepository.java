@@ -173,8 +173,8 @@ public class CustomerRepository {
         return customer;
     }
 
-    public static List<Customer> findByAccountId(int accountId) {
-        List<Customer> customerList = new ArrayList<Customer>();
+    public static Customer findByAccountId(int accountId) {
+        Customer customer = new Customer();
         String selectById = "SELECT * FROM Customer where accountId=?";
 
         try {
@@ -191,16 +191,15 @@ public class CustomerRepository {
                 String telephone = rs.getString(5);
                 int addressID = rs.getInt(6);
 
-                Customer customer = new Customer(customerID, firstName, lastName, mail, telephone, addressID,accountId);
-                customerList.add(customer);
-            }
+                customer = new Customer(customerID, firstName, lastName, mail, telephone, addressID,accountId);
+                            }
             rs.close();
             pstmt.close();
             connection.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return customerList;
+        return customer;
     }
 
 

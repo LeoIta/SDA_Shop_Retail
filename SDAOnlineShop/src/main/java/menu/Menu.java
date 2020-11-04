@@ -98,6 +98,7 @@ public class Menu {
             System.out.println("Enter your password");
             password = scan.nextLine();
             Login login = LoginRepository.findAccountId(userName, password);
+
             while ( login == null){
 
                 System.out.println(" there is no user with this username and password : please retype your username and password");
@@ -108,16 +109,12 @@ public class Menu {
                 login = LoginRepository.findAccountId(userName, password);
             }
 
-            int nbOfAccountId = LoginRepository.findAll().size();
-            int accountId = LoginRepository.findAll().get(nbOfAccountId-1).getAccountID();
-
-            int nbOfCustomer = CustomerRepository.findByAccountId(accountId).size();
-            return  CustomerRepository.findByAccountId(accountId).get(nbOfCustomer-1) ;
-
+            return  CustomerRepository.findByAccountId(login.getAccountID()) ;
 
         }else {
-
-            return new Customer("guest");
+            Customer customer = new Customer("guest","guest","unknown","unknown",1,3);
+            CustomerRepository.saveNewCustomer( customer);
+            return CustomerRepository.getLastAddedCustomer();
         }
     }
 
@@ -176,6 +173,7 @@ public class Menu {
         int amount = displayBill(productList)+delivery.getDeliveryCost();
         System.out.println((productList.size()+1)+") Delivery: Yes    \tCourier:  " + delivery.getName() + "\t Price: "+delivery.getDeliveryCost() );
         Address address = AddressRepository.findById( addressId);
+
         System.out.println(" Address of delivery : "+address.getStreet()+","+address.getPostalCode()+" "+address.getStreet()+","+address.getCountry()+".");
         System.out.println("_______________________________________________________________________");
         System.out.println("Total to pay : ______________________________________________________ "+amount);
@@ -195,7 +193,6 @@ public class Menu {
         Customer customer = identifyUser();
         // one for user in data base with login two (2) for guest shopper
         int numberAccountsAfterShop = LoginRepository.getLastLoginId();
-        System.out.println(customer.toString());
         int userType = customer.getFirstName().equals("guest") ? 3 : (numberAccountsAfterShop>numberAccountsBeforeShop ? 1 :2) ;
         // welcome the user with his information ( name and lastname )
         welcomeCustomer(customer, userType);
@@ -225,11 +222,9 @@ public class Menu {
 
                 }else{
                     boolean wrongChoice = !((chosenItem >= 1) && (chosenItem <=availableChoice));
+                    boolean chosenItemOutOfStock = (!wrongChoice) && (StorageRepository.getQtyByCode( productList.get( chosenItem -1).getProductCode()) ==0);
 
-                    boolean chosenItemOutOfStock = !(wrongChoice) && (StorageRepository.getQtyByCode( productList.get( chosenItem -1).getProductCode() ) < 1);
-
-                    //while( wrongChoice || chosenItemOutOfStock ){
-                    while( wrongChoice ){
+                    while( wrongChoice || chosenItemOutOfStock){
                         if (wrongChoice) { System.out.println("wrong product selected try again by pressing the number before the item of your choice");}
                         else if (chosenItemOutOfStock){ System.out.println("this product is out of stock choose an available product "); }
                         displayAvailableItem(productList);
@@ -288,6 +283,7 @@ public class Menu {
                 if (userType == 3){
                     System.out.println( " You are shopping as guest in order to get delivery provide us with your address ");
                     System.out.println("1) Enter your Country: ");
+                    scan.nextLine();
                     String country = scan.nextLine();
 
                     System.out.println("2) Enter your City: ");
@@ -300,8 +296,10 @@ public class Menu {
                     String street = scan.nextLine();
                     Address address = new Address( country, city, postalCode, street);
                     AddressRepository.saveNewAddress( address );
-
+                    address = AddressRepository.getLastAddedAddress();
                     addressId = address.getAddressID();
+                    customer.setAddressId( addressId);
+
                 }else { addressId = customer.getAddressId();}
 
 
@@ -315,6 +313,7 @@ public class Menu {
             }else{
 
                 System.out.println(" Thank you for shopping with LEOMI SHOP (^_^) :\n BILL No: "+orderId+ " to our dear: "+customer.getFirstName());
+                System.out.println( customer.getCustomerId() +" this is the guess Id");
                 for ( int i =0;  i < nbOfItemBought ; i++){
                     OrderRepository.saveNewOrder(new Order(orderId, customer.getCustomerId(), shoppingCart.get(i).getProductID()));
                 }

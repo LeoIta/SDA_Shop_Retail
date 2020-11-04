@@ -19,6 +19,7 @@ public class Customer {
         this.lastName = "guest";
         this.mail = "unknown";
         this.telephone = "unknown";
+        this.accountId = 3;
     }
 
     public Customer(String firstName, String lastName, String mail, String telephone, int addressID, int accountId) {
